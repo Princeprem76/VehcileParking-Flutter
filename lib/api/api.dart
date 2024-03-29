@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class Api {
-  static const String baseUrl = 'http://127.0.0.1:8000/api/v1';
+  static const String baseUrl = 'http://192.168.1.69:8000/api/v1';
 
   Future<http.Response> getWithHeader(String path, {String? token}) async {
     final url = Uri.parse('$baseUrl/$path');
+    print(token);
     return await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

@@ -9,6 +9,20 @@ import 'package:vehicle_parking/pages/home/services/home_services.dart';
 const Color backgroundColor = Color(0xFF4A4A58);
 
 class homepage extends StatefulWidget {
+  static Route route() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, animation2) {
+        return const homepage();
+      },
+      transitionsBuilder: (context, animation, animation2, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+      fullscreenDialog: true,
+    );
+  }
   const homepage({
     Key? key,
   }) : super(key: key);
@@ -66,11 +80,11 @@ class _homepageState extends State<homepage>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
-                    height: 700,
+                    height: screenHeight,
                     width: 510,
                     child: Padding(
                       padding: const EdgeInsets.only(
-                          top: 5.0, right: 10.0, left: 15, bottom: 5),
+                          top: 50.0, right: 10.0, left: 15, bottom: 5),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,9 +103,9 @@ class _homepageState extends State<homepage>
                           const SizedBox(
                             height: 15,
                           ),
-                          Text(
-                            'Welcome $username,',
-                            style: const TextStyle(
+                          const Text(
+                            'Welcome,',
+                            style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.normal,
                             ),
@@ -126,7 +140,7 @@ class _homepageState extends State<homepage>
                                       itemCount: data.length,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return CustomBoxButton(buttonTitle:data[index]['slot_name'], id:data[index]['id']);
+                                        return CustomBoxButton(buttonTitle:data[index]['slot_name'], id:data[index]['id'].toString());
                                       },
                                       separatorBuilder:
                                           (BuildContext context, int index) =>

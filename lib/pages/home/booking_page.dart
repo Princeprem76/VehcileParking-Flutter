@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:vehicle_parking/pages/home/payment.dart';
 import 'package:vehicle_parking/pages/home/services/home_services.dart';
 
 import '../../common/widgets/custom_button.dart';
@@ -33,10 +34,10 @@ class _BookingPageState extends State<BookingPage> {
             dropdownValue, _vnumberController.text, widget.sid as int)
         .then((response) async {
       if (response.statusCode == 200) {
-        setState(() {
+        // setState(() {
               
-              Navigator.of(context).pushReplacement(PaymentPage.route());
-            });
+        //       Navigator.of(context).pushReplacement();
+        //     });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vehicle_parking/pages/auth/register_page.dart';
 import '../../../common/widgets/custom_button.dart';
 import '../../../common/widgets/custom_textfield.dart';
 import '../../../constants/global_variables.dart';
-import '../../../fcm/fcm_services.dart';
-// import '../../home/screens/home_screen.dart';
+import 'package:vehicle_parking/pages/home/home_page.dart';
 import './services/authentication_services.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -60,29 +59,22 @@ class _LoginScreenState extends State<LoginScreen> {
         try {
           final Map<String, dynamic> responseData =
               json.decode(response.body.toString());
-          storeData(
-            responseData['access'],
-            responseData['refresh'],
-            responseData['user_profile']['name'],
-          ).then((value) {
-            FirebaseMessaging.instance.getToken().then((fcmToken) {
-              if (fcmToken != null) {
-                FCMServices().postDeviceDetails(
-                  fcmToken: fcmToken,
-                  accessToken: responseData['access'],
-                );
-              }
-            });
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                behavior: SnackBarBehavior.floating,
-                content: Text('Login successful'),
-                backgroundColor: GlobalVariables.primaryGrey,
-              ),
-            );
-            setState(() {
-              _isLogging = false;
-              // Navigator.of(context).pushReplacement(HomeScreen.route());
+
+          setState(() {
+            _isLogging = false;
+            storeData(
+              responseData['access'],
+              responseData['refresh'],
+              responseData['user_data']['name'],
+            ).then((value) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  behavior: SnackBarBehavior.floating,
+                  content: Text('Login successful'),
+                  backgroundColor: GlobalVariables.primaryGrey,
+                ),
+              );
+              Navigator.of(context).pushReplacement(homepage.route());
             });
           });
         } catch (e) {
@@ -236,7 +228,47 @@ class _LoginScreenState extends State<LoginScreen> {
                                   }
                                 },
                               ),
-                            )
+                            ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Center(
+                        child: Text(
+                          "---------- OR ----------",
+                          style: TextStyle(
+                            color: GlobalVariables.primarySky,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          const Text(
+                            "New User?",
+                            style: TextStyle(
+                                color: GlobalVariables.primarySky,
+                                fontSize: 18),
+                          ),
+                          GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Signup(),
+                              ),
+                            ),
+                            child: const Text(
+                              ' Sign Up',
+                              style: TextStyle(
+                                  color: GlobalVariables.primaryPurple,
+                                  fontSize: 22),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
