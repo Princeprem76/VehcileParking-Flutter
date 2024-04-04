@@ -6,23 +6,19 @@ import 'package:esewa_pnp/esewa.dart';
 import 'package:esewa_pnp/esewa_pnp.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart' as http;
 import 'package:vehicle_parking/pages/home/home_page.dart';
-
+import 'package:vehicle_parking/pages/home/services/home_services.dart';
 
 class PaymentPage extends StatefulWidget {
-  int price;
+  String price;
   String pname;
-  int id;
-  int user;
-  String email;
+  String id;
+
   PaymentPage({
     Key? key,
     required this.price,
     required this.pname,
     required this.id,
-    required this.user,
-    required this.email,
   }) : super(key: key);
 
   @override
@@ -33,23 +29,12 @@ class _PaymentPageState extends State<PaymentPage> {
   late ESewaPnp _esewaPnp;
   late ESewaConfiguration _configuration;
 
-  Future paymentDetail(String method, int service, int user, int price, String pay) async {
-    final http.Response response = await http.post(
-      Uri.parse('http://10.0.2.2:8000/paymentapi/v1/paymentsuccess/'),
-      headers: {"Content-Type": "application/json"},
-      body: json.encode(
-        <String, dynamic>{
-          'service': service,
-          'payment_method': method,
-          'price': price,
-          'user': user,
-          'pay':pay,
-        },
-      ),
-    );
-    if (response.statusCode == 200) {
-      var result = json.decode(response.body).toString();
-      if (result == "Success") {
+  _paymentDetail(String method) {
+    HomeService.payments(widget.price.toString(), method, widget.id.toString())
+        .then((response) async {
+      if (response.statusCode == 201) {
+        var result = json.decode(response.body).toString();
+
         // ignore: use_build_context_synchronously
         Navigator.push(
           context,
@@ -61,12 +46,11 @@ class _PaymentPageState extends State<PaymentPage> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(_snackBar1);
       }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(_snackBar1);
-    }
+    });
   }
+
   final SnackBar _snackBar = const SnackBar(
-    content: Text('Appointment Booked!'),
+    content: Text('Payment Completed!'),
     duration: Duration(seconds: 3),
   );
   final SnackBar _snackBar1 = const SnackBar(
@@ -138,32 +122,31 @@ class _PaymentPageState extends State<PaymentPage> {
                             ],
                           ),
                         ),
-                        
                         Padding(
                           padding: const EdgeInsets.only(top: 30.0),
                           child: ESewaPaymentButton(
-                            
                             _esewaPnp,
                             amount: double.parse(widget.price.toString()),
                             callBackURL: "https://example.com",
                             productId: widget.id.toString(),
                             productName: widget.pname,
                             onSuccess: (result) {
-                              paymentDetail("E-payment", widget.id, widget.user,
-                                  widget.price, "True");
+                              _paymentDetail("E-payment");
                             },
                             onFailure: (e) {},
                             color: const Color(0xFF60BB47), // Green background
                             labelBuilder: (amount, esewaLogo) {
-                              return Text("Pay Rs. $amount with esewa",style: const TextStyle(
+                              return Text(
+                                "Pay Rs. $amount with esewa",
+                                style: const TextStyle(
                                   fontSize: 20,
                                   color: Colors.black,
                                   fontWeight: FontWeight.normal,
-                                ),);
+                                ),
+                              );
                             },
                             width: 300.0,
                             height: 70.0,
-                            
                           ),
                         ),
                         const SizedBox(
@@ -171,8 +154,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            paymentDetail("Cash", widget.id, widget.user,
-                                widget.price,"False");
+                            _paymentDetail("Cash");
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF60BB47),

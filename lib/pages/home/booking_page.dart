@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:vehicle_parking/pages/home/booking_history.dart';
 import 'package:vehicle_parking/pages/home/payment.dart';
 import 'package:vehicle_parking/pages/home/services/home_services.dart';
 
@@ -27,17 +28,24 @@ class BookingPage extends StatefulWidget {
 class _BookingPageState extends State<BookingPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _vnumberController = TextEditingController();
-
   String dropdownValue = _data.keys.first;
   _book() {
     HomeService.bookSlot(
-            dropdownValue, _vnumberController.text, widget.sid as int)
+            dropdownValue, _vnumberController.text, widget.sid.toString())
         .then((response) async {
-      if (response.statusCode == 200) {
-        // setState(() {
-              
-        //       Navigator.of(context).pushReplacement();
-        //     });
+      if (response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Vehcile Parking Booked!'),
+            backgroundColor: GlobalVariables.primaryRed,
+          ),
+        );
+        setState(() {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const BookingDetails()),
+          );
+        });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -102,30 +110,27 @@ class _BookingPageState extends State<BookingPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      DropdownButton<String>(
-                        value: _data.values.first,
-                        icon: const Icon(Icons.arrow_downward),
-                        elevation: 16,
-                        style: const TextStyle(color: Colors.deepPurple),
-                        underline: Container(
-                          height: 2,
-                          color: Colors.deepPurpleAccent,
+                      SizedBox(
+                        height: height * 0.08,
+                        width: width,
+                        child: DropdownButton<String>(
+                          value: dropdownValue,
+                          hint: const Text('Select a Vehicle Type'),
+                          icon: const Icon(Icons.arrow_drop_down),
+                          style: const TextStyle(color: Colors.deepPurple),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownValue = newValue!;
+                            });
+                          },
+                          items: <String>['two', 'four']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                         ),
-                        items: _data.entries.map<DropdownMenuItem<String>>(
-                            (MapEntry<String, String> entry) {
-                          return DropdownMenuItem<String>(
-                            value: entry.value,
-                            child: Text(entry.key),
-                          );
-                        }).toList(),
-                        onChanged: (String? value) {
-                          // Update the selected value when the dropdown changes
-                          if (value != null) {
-                            // Find the corresponding key for the selected value
-                            dropdownValue = _data.keys
-                                .firstWhere((key) => _data[key] == value);
-                          }
-                        },
                       ),
                       SizedBox(height: height * 0.02),
                       CustomTextFormField(

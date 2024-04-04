@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vehicle_parking/pages/auth/register_page.dart';
+import 'package:vehicle_parking/pages/home/booking_history.dart';
 import '../../../common/widgets/custom_button.dart';
 import '../../../common/widgets/custom_textfield.dart';
 import '../../../constants/global_variables.dart';
@@ -74,7 +75,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   backgroundColor: GlobalVariables.primaryGrey,
                 ),
               );
-              Navigator.of(context).pushReplacement(homepage.route());
+              print(responseData['booking']);
+              if (responseData['booking'] == true) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const BookingDetails()),
+                );
+              }
+              else{
+                Navigator.of(context).pushReplacement(homepage.route());
+              }
+              
             });
           });
         } catch (e) {

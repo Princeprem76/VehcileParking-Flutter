@@ -1,19 +1,18 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:vehicle_parking/common/widgets/custom_button.dart';
-import 'package:vehicle_parking/pages/home/payment.dart';
+import 'package:vehicle_parking/common/widgets/custom_buttom_app_bar.dart';
 import 'package:vehicle_parking/pages/home/services/home_services.dart';
 
-class BookingDetails extends StatefulWidget {
-  const BookingDetails({
+class BookingDataDetails extends StatefulWidget {
+  const BookingDataDetails({
     Key? key,
   }) : super(key: key);
 
   @override
-  _BookingDetailsState createState() => _BookingDetailsState();
+  _BookingDataDetailsState createState() => _BookingDataDetailsState();
 }
 
-class _BookingDetailsState extends State<BookingDetails> {
+class _BookingDataDetailsState extends State<BookingDataDetails> {
   List data = [];
   List data1 = [];
 
@@ -23,29 +22,12 @@ class _BookingDetailsState extends State<BookingDetails> {
   }
 
   _bookingData() {
-    HomeService.bookHistory().then((response) async {
+    HomeService.bookDataHistory().then((response) async {
       if (response.statusCode == 200) {
         var vData = json.decode(response.body);
-        print(vData);
         setState(() {
           data = vData['data'];
         });
-      }
-    });
-  }
-
-  _checkout(String price, String pname, String id) {
-    HomeService.checkout().then((response) async {
-      if (response.statusCode == 200) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => PaymentPage(
-                    price: price,
-                    pname: pname,
-                    id: id,
-                  )),
-        );
       }
     });
   }
@@ -60,17 +42,17 @@ class _BookingDetailsState extends State<BookingDetails> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.only(top: 50.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(top: 60.0),
+                  padding: EdgeInsets.only(top: 60.0, left: 15, right: 15),
                   child: Row(
                     children: [
                       Text(
-                        'Booking Status',
+                        'Booking History',
                         style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.normal,
@@ -84,7 +66,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                     _bookingData();
                   },
                   child: SizedBox(
-                    height: 650,
+                    height: MediaQuery.of(context).size.height * 0.67,
                     child: data.isNotEmpty
                         ? ListView.separated(
                             itemCount: data.length,
@@ -141,18 +123,12 @@ class _BookingDetailsState extends State<BookingDetails> {
                                           fontSize: 15,
                                         ),
                                       ),
-                                      Center(
-                                        child: PrimaryButton(
-                                            icon: Icons.person,
-                                            text: 'Check Out',
-                                            onPressed: () {
-                                              _checkout(
-                                                  data[index]['price']
-                                                      .toString(),
-                                                  data[index]['parking_spot']
-                                                      ['slot_name'],
-                                                  data[index]['id'].toString());
-                                            }),
+                                      Text(
+                                        'Check Out: ${data[index]['check_out']}',
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -166,6 +142,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                         : const Center(child: Text('No items')),
                   ),
                 ),
+                const ButtomAppBar(),
               ],
             ),
           ),

@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:vehicle_parking/common/widgets/custom_buttom_app_bar.dart';
 import 'package:vehicle_parking/common/widgets/custom_content_box.dart';
 import 'package:vehicle_parking/pages/home/services/home_services.dart';
 
@@ -23,6 +24,7 @@ class homepage extends StatefulWidget {
       fullscreenDialog: true,
     );
   }
+
   const homepage({
     Key? key,
   }) : super(key: key);
@@ -79,81 +81,91 @@ class _homepageState extends State<homepage>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(
-                    height: screenHeight,
-                    width: 510,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 50.0, right: 10.0, left: 15, bottom: 5),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Row(
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: screenHeight * 0.85,
+                        width: 510,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 50.0, right: 10.0, left: 15, bottom: 5),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'Vehicle Park',
+                              const Row(
+                                children: [
+                                  Text(
+                                    'Vehicle Park',
+                                    style: TextStyle(
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Text(
+                                'Welcome,',
                                 style: TextStyle(
-                                  fontSize: 35,
+                                  fontSize: 25,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Text(
+                                'Available Slot',
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.only(
+                                  top: 10.0,
+                                  left: 30.0,
+                                ),
+                              ),
+                              RefreshIndicator(
+                                onRefresh: () async {
+                                  _vehicleData();
+                                },
+                                child: SizedBox(
+                                  height: screenHeight*0.54,
+                                  child: data.isNotEmpty
+                                      ? ListView.separated(
+                                          itemCount: data.length,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return CustomBoxButton(
+                                                buttonTitle: data[index]
+                                                    ['slot_name'],
+                                                id: data[index]['id']
+                                                    .toString());
+                                          },
+                                          separatorBuilder:
+                                              (BuildContext context,
+                                                      int index) =>
+                                                  const Divider(),
+                                        )
+                                      : const Center(
+                                          child: Text('No Slot Available'),
+                                        ),
+                                ),
+                              )
                             ],
                           ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          const Text(
-                            'Welcome,',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text(
-                            'Available Slot',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(
-                              top: 10.0,
-                              left: 30.0,
-                            ),
-                          ),
-                          RefreshIndicator(
-                            onRefresh: () async {
-                              _vehicleData();
-                            },
-                            child: SizedBox(
-                              height: 540,
-                              child: data.isNotEmpty
-                                  ? ListView.separated(
-                                      itemCount: data.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return CustomBoxButton(buttonTitle:data[index]['slot_name'], id:data[index]['id'].toString());
-                                      },
-                                      separatorBuilder:
-                                          (BuildContext context, int index) =>
-                                              const Divider(),
-                                    )
-                                  : const Center(
-                                      child: Text('No Slot Available'),
-                                    ),
-                            ),
-                          )
-                        ],
+                        ),
                       ),
-                    ),
+                      const ButtomAppBar(),
+                    ],
                   )
                 ],
               ),

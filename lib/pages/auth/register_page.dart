@@ -6,7 +6,6 @@ import 'package:vehicle_parking/pages/auth/services/authentication_services.dart
 import 'package:vehicle_parking/pages/auth/verify.dart';
 
 class Signup extends StatefulWidget {
-  
   const Signup({
     Key? key,
   }) : super(key: key);
@@ -36,15 +35,14 @@ class _SignupState extends State<Signup> {
     ).then((response) async {
       if (response.statusCode == 200) {
         var result = json.decode(response.body);
-        
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Verify(
-                email: emailco.text,
-              ),
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Verify(
+              email: emailco.text,
             ),
-          );
+          ),
+        );
         // } else if (result == "Email exists") {
         //   empresent = true;
         // } else {

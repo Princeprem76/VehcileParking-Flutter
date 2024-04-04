@@ -1,6 +1,9 @@
+
 import 'package:flutter/material.dart';
-import 'package:vehicle_parking/pages/home/booking_history.dart';
+import 'package:vehicle_parking/pages/home/account_details.dart';
+import 'package:vehicle_parking/pages/home/bookings_data.dart';
 import 'package:vehicle_parking/pages/home/home_page.dart';
+import 'package:vehicle_parking/pages/home/notification.dart';
 
 class ButtomAppBar extends StatelessWidget {
   const ButtomAppBar({super.key});
@@ -31,34 +34,32 @@ class ButtomAppBar extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.notifications),
               onPressed: () {
-          //        Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => const notification();
-          //   ),
-          // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NotifyDetails(),
+                  ),
+                );
               },
             ),
             IconButton(
               icon: const Icon(Icons.timelapse_sharp),
               onPressed: () {
-                 Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const BookingDetails()
-            ),
-          );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const BookingDataDetails()),
+                );
               },
             ),
             IconButton(
               icon: const Icon(Icons.account_circle_outlined),
               onPressed: () {
-          //        Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => const account()
-          //   ),
-          // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AccountDetails()),
+                );
               },
             )
           ],
