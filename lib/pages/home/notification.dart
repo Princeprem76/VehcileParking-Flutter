@@ -24,8 +24,9 @@ class _NotifyDetailsState extends State<NotifyDetails> {
     HomeService.notificationData().then((response) async {
       if (response.statusCode == 200) {
         var vData = json.decode(response.body);
+        print(vData);
         setState(() {
-          notify = vData['data'];
+          notify = vData;
         });
       }
     });
@@ -98,7 +99,7 @@ class _NotifyDetailsState extends State<NotifyDetails> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Text(
-                                        notify[index].Date,
+                                        notify[index]['created'],
                                         style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 15,
@@ -113,7 +114,7 @@ class _NotifyDetailsState extends State<NotifyDetails> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          notify[index].content,
+                                          notify[index]['content'],
                                           style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 24,
