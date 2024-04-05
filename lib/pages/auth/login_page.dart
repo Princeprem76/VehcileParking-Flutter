@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vehicle_parking/pages/auth/email_page.dart';
 import 'package:vehicle_parking/pages/auth/register_page.dart';
 import 'package:vehicle_parking/pages/home/booking_history.dart';
 import '../../../common/widgets/custom_button.dart';
@@ -82,11 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   MaterialPageRoute(
                       builder: (context) => const BookingDetails()),
                 );
-              }
-              else{
+              } else {
                 Navigator.of(context).pushReplacement(homepage.route());
               }
-              
             });
           });
         } catch (e) {
@@ -206,19 +205,28 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                       SizedBox(height: height * 0.02),
-                      const Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Forget Password ?',
-                            style: TextStyle(
-                              color: GlobalVariables.primarySky,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 200.0),
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () =>
+                                 Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ForgetEmail(),
+                              ),
                             ),
-                          ),
-                        ],
+                              child: Text(
+                                'Forgot Password?',
+                                style: TextStyle(
+                                    color: Colors.blueAccent[700],
+                                    fontSize: 20),
+                                textAlign: TextAlign.end,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: height * 0.02),
                       _isLogging

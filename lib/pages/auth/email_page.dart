@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:vehicle_parking/pages/auth/forgetpassword.dart';
 
 class ForgetEmail extends StatefulWidget {
   const ForgetEmail({Key? key}) : super(key: key);
@@ -93,12 +94,12 @@ class _ForgetEmailState extends State<ForgetEmail> {
                               setState(() {
                                 emptyuser = false;
                               });
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => ,
-                              //   ),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Forgetpassword(email:useremail.text),
+                                ),
+                              );
                             } else {
                               setState(() {
                                 emptyuser = true;
