@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vehicle_parking/pages/admin/admin_home.dart';
 import 'package:vehicle_parking/pages/auth/email_page.dart';
 import 'package:vehicle_parking/pages/auth/register_page.dart';
 import 'package:vehicle_parking/pages/home/booking_history.dart';
@@ -76,15 +77,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   backgroundColor: GlobalVariables.primaryGrey,
                 ),
               );
-              print(responseData['booking']);
-              if (responseData['booking'] == true) {
+              print(responseData["user_type"]);
+              if (responseData['user_type'] == 2) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const BookingDetails()),
+                      builder: (context) => const adminhomepage()),
                 );
               } else {
-                Navigator.of(context).pushReplacement(homepage.route());
+                if (responseData['booking'] == true) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const BookingDetails()),
+                  );
+                } else {
+                  Navigator.of(context).pushReplacement(homepage.route());
+                }
               }
             });
           });
@@ -210,13 +219,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Column(
                           children: [
                             GestureDetector(
-                              onTap: () =>
-                                 Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ForgetEmail(),
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ForgetEmail(),
+                                ),
                               ),
-                            ),
                               child: Text(
                                 'Forgot Password?',
                                 style: TextStyle(

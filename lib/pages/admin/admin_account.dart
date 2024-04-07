@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_parking/common/widgets/custom_button.dart';
 import 'package:vehicle_parking/constants/global_variables.dart';
+import 'package:vehicle_parking/pages/admin/admin_booking_history.dart';
+import 'package:vehicle_parking/pages/admin/admin_home.dart';
+import 'package:vehicle_parking/pages/admin/admin_notification.dart';
+import 'package:vehicle_parking/pages/admin/check_out.dart';
 import 'package:vehicle_parking/pages/auth/login_page.dart';
 import 'package:vehicle_parking/pages/home/bookings_data.dart';
 import 'package:vehicle_parking/pages/home/change_pw.dart';
@@ -11,16 +15,16 @@ import 'dart:convert';
 import 'package:vehicle_parking/pages/home/services/home_services.dart';
 import 'package:vehicle_parking/pages/home/user_details.dart';
 
-class AccountDetails extends StatefulWidget {
-  const AccountDetails({
+class AdminAccountDetails extends StatefulWidget {
+  const AdminAccountDetails({
     Key? key,
   }) : super(key: key);
 
   @override
-  _AccountDetailsState createState() => _AccountDetailsState();
+  _AdminAccountDetailsState createState() => _AdminAccountDetailsState();
 }
 
-class _AccountDetailsState extends State<AccountDetails> {
+class _AdminAccountDetailsState extends State<AdminAccountDetails> {
   TextEditingController name = TextEditingController();
 
   @override
@@ -189,7 +193,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const homepage(),
+                        builder: (context) => const adminhomepage(),
                       ),
                     );
                   },
@@ -200,8 +204,18 @@ class _AccountDetailsState extends State<AccountDetails> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const NotifyDetails(),
+                        builder: (context) => const AdminNotifyDetail(),
                       ),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.shopping_cart_checkout),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CheckOutBooking()),
                     );
                   },
                 ),
@@ -211,7 +225,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const BookingDataDetails()),
+                          builder: (context) => const AdminBookingData()),
                     );
                   },
                 ),
@@ -221,7 +235,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const AccountDetails()),
+                          builder: (context) => const AdminAccountDetails()),
                     );
                   },
                 )

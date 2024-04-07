@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:vehicle_parking/common/widgets/custom_button.dart';
+import 'package:vehicle_parking/pages/home/bookings_data.dart';
 import 'package:vehicle_parking/pages/home/payment.dart';
 import 'package:vehicle_parking/pages/home/services/home_services.dart';
 
@@ -26,7 +27,6 @@ class _BookingDetailsState extends State<BookingDetails> {
     HomeService.bookHistory().then((response) async {
       if (response.statusCode == 200) {
         var vData = json.decode(response.body);
-        print(vData);
         setState(() {
           data = vData['data'];
         });
@@ -60,21 +60,43 @@ class _BookingDetailsState extends State<BookingDetails> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(14),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 60.0),
-                  child: Row(
+                Padding(
+                  padding: const EdgeInsets.only(right: 50.0),
+                  child: Column(
                     children: [
-                      Text(
-                        'Booking Status',
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.normal,
-                        ),
+                      Row(
+                        children: [
+                          InkWell(
+                            child: const Icon(
+                              Icons.arrow_back_ios_new_outlined,
+                              color: Colors.black,
+                            ),
+                            onTap: () {
+                              setState(() {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const BookingDataDetails()),
+                                );
+                              });
+                            },
+                          ),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.height * 0.05),
+                          const Text(
+                            'Booking Status',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

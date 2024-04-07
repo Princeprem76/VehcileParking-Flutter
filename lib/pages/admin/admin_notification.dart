@@ -1,21 +1,25 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:vehicle_parking/common/widgets/custom_buttom_app_bar.dart';
+import 'package:vehicle_parking/pages/admin/admin_account.dart';
+import 'package:vehicle_parking/pages/admin/admin_booking_history.dart';
+import 'package:vehicle_parking/pages/admin/admin_home.dart';
+import 'package:vehicle_parking/pages/admin/check_out.dart';
 import 'package:vehicle_parking/pages/home/account_details.dart';
 import 'package:vehicle_parking/pages/home/bookings_data.dart';
 import 'package:vehicle_parking/pages/home/home_page.dart';
 import 'package:vehicle_parking/pages/home/services/home_services.dart';
 
-class NotifyDetails extends StatefulWidget {
-  const NotifyDetails({
+class AdminNotifyDetail extends StatefulWidget {
+  const AdminNotifyDetail({
     Key? key,
   }) : super(key: key);
 
   @override
-  _NotifyDetailsState createState() => _NotifyDetailsState();
+  _AdminNotifyDetailState createState() => _AdminNotifyDetailState();
 }
 
-class _NotifyDetailsState extends State<NotifyDetails> {
+class _AdminNotifyDetailState extends State<AdminNotifyDetail> {
   List notify = [];
 
   void initState() {
@@ -162,7 +166,7 @@ class _NotifyDetailsState extends State<NotifyDetails> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const homepage(),
+                        builder: (context) => const adminhomepage(),
                       ),
                     );
                   },
@@ -173,8 +177,18 @@ class _NotifyDetailsState extends State<NotifyDetails> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const NotifyDetails(),
+                        builder: (context) => const AdminNotifyDetail(),
                       ),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.shopping_cart_checkout),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CheckOutBooking()),
                     );
                   },
                 ),
@@ -184,7 +198,7 @@ class _NotifyDetailsState extends State<NotifyDetails> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const BookingDataDetails()),
+                          builder: (context) => const AdminBookingData()),
                     );
                   },
                 ),
@@ -194,7 +208,7 @@ class _NotifyDetailsState extends State<NotifyDetails> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const AccountDetails()),
+                          builder: (context) => const AdminAccountDetails()),
                     );
                   },
                 )

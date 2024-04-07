@@ -1,34 +1,40 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:vehicle_parking/common/widgets/custom_buttom_app_bar.dart';
+import 'package:vehicle_parking/pages/admin/admin_account.dart';
+import 'package:vehicle_parking/pages/admin/admin_home.dart';
+import 'package:vehicle_parking/pages/admin/admin_notification.dart';
+import 'package:vehicle_parking/pages/admin/check_out.dart';
+import 'package:vehicle_parking/pages/admin/services/admin_services.dart';
 import 'package:vehicle_parking/pages/home/account_details.dart';
-import 'package:vehicle_parking/pages/home/bookings_data.dart';
 import 'package:vehicle_parking/pages/home/home_page.dart';
+import 'package:vehicle_parking/pages/home/notification.dart';
 import 'package:vehicle_parking/pages/home/services/home_services.dart';
 
-class NotifyDetails extends StatefulWidget {
-  const NotifyDetails({
+class AdminBookingData extends StatefulWidget {
+  const AdminBookingData({
     Key? key,
   }) : super(key: key);
 
   @override
-  _NotifyDetailsState createState() => _NotifyDetailsState();
+  _AdminBookingDataState createState() => _AdminBookingDataState();
 }
 
-class _NotifyDetailsState extends State<NotifyDetails> {
-  List notify = [];
+class _AdminBookingDataState extends State<AdminBookingData> {
+  List data = [];
+  List data1 = [];
 
   void initState() {
-    _NotifyData();
+    _bookingData();
     super.initState();
   }
 
-  _NotifyData() async {
-    HomeService.notificationData().then((response) async {
+  _bookingData() {
+    AdminHomeService.bookDataHistory().then((response) async {
       if (response.statusCode == 200) {
         var vData = json.decode(response.body);
         setState(() {
-          notify = vData;
+          data = vData['data'];
         });
       }
     });
@@ -44,30 +50,17 @@ class _NotifyDetailsState extends State<NotifyDetails> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Padding(
-            padding: const EdgeInsets.all(
-                14),
+            padding: const EdgeInsets.all(14),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
-                  padding: EdgeInsets.all(20.0),
+                  padding: EdgeInsets.all(20),
                   child: Row(
                     children: [
-                      // InkWell(
-                      //   child: const Icon(Icons.arrow_back_ios_new_outlined,
-                      //       color: Colors.black),
-                      //   onTap: () {
-                      //     setState(() {
-                      //       Navigator.pop(context);
-                      //     });
-                      //   },
-                      // ),
-                      // const SizedBox(
-                      //   width: 20,
-                      // ),
                       Text(
-                        'Notifications',
+                        'Booking History',
                         style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.normal,
@@ -78,13 +71,13 @@ class _NotifyDetailsState extends State<NotifyDetails> {
                 ),
                 RefreshIndicator(
                   onRefresh: () async {
-                    _NotifyData();
+                    _bookingData();
                   },
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.67,
-                    child: notify.isNotEmpty
+                    child: data.isNotEmpty
                         ? ListView.separated(
-                            itemCount: notify.length,
+                            itemCount: data.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
                                 decoration: BoxDecoration(
@@ -95,35 +88,67 @@ class _NotifyDetailsState extends State<NotifyDetails> {
                                   ),
                                 ),
                                 child: ListTile(
-                                  title: Row(
+                                  title: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        notify[index]['created'],
+                                        'Parking Date time: ${data[index]['parking_time']}',
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 17,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        'Vehicle Number: ${data[index]['vehicle']['vehicle_number']}',
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        'Slot Name: ${data[index]['parking_spot']['slot_name']}',
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        'Parking Status: ${data[index]['parking_status']}',
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        'Price: ${data[index]['price']}',
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Check Out: ${data[index]['check_out']}',
                                         style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 15,
                                         ),
                                       ),
                                     ],
-                                  ),
-                                  subtitle: Padding(
-                                    padding: const EdgeInsets.only(top: 10.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          notify[index]['content'],
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 24,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
                                   ),
                                 ),
                               );
@@ -162,7 +187,7 @@ class _NotifyDetailsState extends State<NotifyDetails> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const homepage(),
+                        builder: (context) => const adminhomepage(),
                       ),
                     );
                   },
@@ -173,8 +198,18 @@ class _NotifyDetailsState extends State<NotifyDetails> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const NotifyDetails(),
+                        builder: (context) => const AdminNotifyDetail(),
                       ),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.shopping_cart_checkout),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CheckOutBooking()),
                     );
                   },
                 ),
@@ -184,7 +219,7 @@ class _NotifyDetailsState extends State<NotifyDetails> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const BookingDataDetails()),
+                          builder: (context) => const AdminBookingData()),
                     );
                   },
                 ),
@@ -194,7 +229,7 @@ class _NotifyDetailsState extends State<NotifyDetails> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const AccountDetails()),
+                          builder: (context) => const AdminAccountDetails()),
                     );
                   },
                 )

@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:vehicle_parking/common/widgets/custom_buttom_app_bar.dart';
+import 'package:vehicle_parking/pages/home/account_details.dart';
+import 'package:vehicle_parking/pages/home/home_page.dart';
+import 'package:vehicle_parking/pages/home/notification.dart';
 import 'package:vehicle_parking/pages/home/services/home_services.dart';
 
 class BookingDataDetails extends StatefulWidget {
@@ -42,13 +45,13 @@ class _BookingDataDetailsState extends State<BookingDataDetails> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Padding(
-            padding: const EdgeInsets.only(top: 50.0),
+            padding: const EdgeInsets.all(14),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(top: 60.0, left: 15, right: 15),
+                  padding: EdgeInsets.all(20),
                   child: Row(
                     children: [
                       Text(
@@ -142,12 +145,74 @@ class _BookingDataDetailsState extends State<BookingDataDetails> {
                         : const Center(child: Text('No items')),
                   ),
                 ),
-                const ButtomAppBar(),
               ],
             ),
           ),
         ),
       ),
-    ]));
+    ]),
+    bottomNavigationBar: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(40),
+          topRight: Radius.circular(40),
+        ),
+        child: BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          notchMargin: 5.0,
+          clipBehavior: Clip.antiAlias,
+          child: SizedBox(
+            height: kBottomNavigationBarHeight,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.home),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const homepage(),
+                      ),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.notifications),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const NotifyDetails(),
+                      ),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.timelapse_sharp),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BookingDataDetails()),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.account_circle_outlined),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AccountDetails()),
+                    );
+                  },
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

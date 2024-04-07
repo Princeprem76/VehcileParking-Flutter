@@ -136,4 +136,24 @@ class HomeService {
     );
     return response;
   }
+  
+  static Future checkdata() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token')!;
+    dynamic response = await Api().getWithHeader(
+      'check-data/',
+      token: token,
+    );
+    return response;
+  }
+
+  static Future checkprice() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token')!;
+    dynamic response = await Api().getWithHeader(
+      'price/',
+      token: token,
+    );
+    return response;
+  }
 }

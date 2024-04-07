@@ -3,23 +3,24 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:vehicle_parking/common/widgets/custom_app_bar.dart';
-import 'package:vehicle_parking/common/widgets/custom_buttom_app_bar.dart';
 import 'package:vehicle_parking/common/widgets/custom_content_box.dart';
-import 'package:vehicle_parking/constants/global_variables.dart';
+import 'package:vehicle_parking/pages/admin/admin_account.dart';
+import 'package:vehicle_parking/pages/admin/admin_booking_history.dart';
+import 'package:vehicle_parking/pages/admin/admin_home.dart';
+import 'package:vehicle_parking/pages/admin/admin_notification.dart';
+import 'package:vehicle_parking/pages/admin/check_out.dart';
 import 'package:vehicle_parking/pages/home/account_details.dart';
-import 'package:vehicle_parking/pages/home/booking_history.dart';
 import 'package:vehicle_parking/pages/home/bookings_data.dart';
 import 'package:vehicle_parking/pages/home/notification.dart';
 import 'package:vehicle_parking/pages/home/services/home_services.dart';
 
 const Color backgroundColor = Color(0xFF4A4A58);
 
-class homepage extends StatefulWidget {
+class slotpage extends StatefulWidget {
   static Route route() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, animation2) {
-        return const homepage();
+        return const slotpage();
       },
       transitionsBuilder: (context, animation, animation2, child) {
         return FadeTransition(
@@ -31,15 +32,15 @@ class homepage extends StatefulWidget {
     );
   }
 
-  const homepage({
+  const slotpage({
     Key? key,
   }) : super(key: key);
 
   @override
-  _homepageState createState() => _homepageState();
+  _slotpageState createState() => _slotpageState();
 }
 
-class _homepageState extends State<homepage>
+class _slotpageState extends State<slotpage>
     with SingleTickerProviderStateMixin {
   bool isCollapsed = true;
   late double screenWidth, screenHeight;
@@ -49,7 +50,6 @@ class _homepageState extends State<homepage>
   @override
   void initState() {
     username = '';
-    _checkData();
     _vehicleData();
 
     super.initState();
@@ -63,20 +63,6 @@ class _homepageState extends State<homepage>
         setState(() {
           data = vData['space'];
         });
-      }
-    });
-  }
-
-  _checkData() {
-    HomeService.checkdata().then((response) async {
-      if (response.statusCode == 200) {
-        var newdata = json.decode(response.body);
-        if (newdata['booking'] == true) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const BookingDetails()),
-          );
-        } else {}
       }
     });
   }
@@ -110,30 +96,6 @@ class _homepageState extends State<homepage>
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Row(
-                                children: [
-                                  Text(
-                                    'Vehicle Park',
-                                    style: TextStyle(
-                                      fontSize: 35,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Text(
-                                'Welcome,',
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
                               const Text(
                                 'Available Slot',
                                 style: TextStyle(
@@ -210,7 +172,7 @@ class _homepageState extends State<homepage>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const homepage(),
+                        builder: (context) => const adminhomepage(),
                       ),
                     );
                   },
@@ -221,8 +183,18 @@ class _homepageState extends State<homepage>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const NotifyDetails(),
+                        builder: (context) => const AdminNotifyDetail(),
                       ),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.shopping_cart_checkout),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CheckOutBooking()),
                     );
                   },
                 ),
@@ -232,7 +204,7 @@ class _homepageState extends State<homepage>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const BookingDataDetails()),
+                          builder: (context) => const AdminBookingData()),
                     );
                   },
                 ),
@@ -242,7 +214,7 @@ class _homepageState extends State<homepage>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const AccountDetails()),
+                          builder: (context) => const AdminAccountDetails()),
                     );
                   },
                 )

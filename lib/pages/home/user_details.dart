@@ -43,9 +43,9 @@ class _UserdetailsState extends State<Userdetails> {
       if (response.statusCode == 200) {
         var vData = json.decode(response.body);
         setState(() {
-          phone.text =  vData['data']['phone'];
-          address.text = vData['data']['address'];
-          name.text = vData['data']['name'];
+          phone.text =  vData['phone'];
+          address.text = vData['address'];
+          name.text = vData['name'];
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(_snackBar1);
@@ -111,7 +111,7 @@ class _UserdetailsState extends State<Userdetails> {
                             const CircleAvatar(
                               radius: 60.0,
                               foregroundImage:
-                                  ExactAssetImage('lib/images/images.png'),
+                                  ExactAssetImage('assets/images/logo.png'),
                             ),
                             const SizedBox(
                               height: 20,

@@ -97,7 +97,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             const CircleAvatar(
                               radius: 60.0,
                               foregroundImage:
-                                  ExactAssetImage('lib/images/images.png'),
+                                  ExactAssetImage('assets/images/logo.png'),
                             ),
                             const SizedBox(
                               height: 20,
