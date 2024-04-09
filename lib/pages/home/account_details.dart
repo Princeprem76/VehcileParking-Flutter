@@ -49,6 +49,20 @@ class _AccountDetailsState extends State<AccountDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: GlobalVariables.blueColor,
+        title: const Text(
+          "PROFILE",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        centerTitle: true,
+      ),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -59,32 +73,12 @@ class _AccountDetailsState extends State<AccountDetails> {
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Column(
-                        //   children: [
-                        //     Padding(
-                        //       padding: const EdgeInsets.only(right: 350.0),
-                        //       child: InkWell(
-                        //         child: const Icon(
-                        //           Icons.arrow_back_ios_new_outlined,
-                        //           color: Colors.black,
-                        //         ),
-                        //         onTap: () {
-                        //           setState(() {
-                        //             Navigator.pop(context);
-                        //           });
-                        //         },
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                       
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -110,7 +104,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Center(
                             child: PrimaryButton(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class GlobalVariables {
   // Fonts
   static const String fontFamily = 'Roboto';
@@ -27,4 +26,8 @@ class GlobalVariables {
   static const primaryPurple = Color(0xff6200ee);
   static const primarySky = Color(0xff219ba3);
 
+  static const lightBg = Color(0xFFD1D9E6);
+  static const blueColor = Color(0xFF246AFE);
+  static const darkBgColor = Color(0xFF242424);
+  static const lightTextColor = Color(0xFF242424);
 }

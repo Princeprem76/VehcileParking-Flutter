@@ -5,10 +5,10 @@ import 'package:vehicle_parking/pages/admin/admin_home.dart';
 import 'package:vehicle_parking/pages/auth/email_page.dart';
 import 'package:vehicle_parking/pages/auth/register_page.dart';
 import 'package:vehicle_parking/pages/home/booking_history.dart';
+import 'package:vehicle_parking/pages/splash_screen/homesplash.dart';
 import '../../../common/widgets/custom_button.dart';
 import '../../../common/widgets/custom_textfield.dart';
 import '../../../constants/global_variables.dart';
-import 'package:vehicle_parking/pages/home/home_page.dart';
 import './services/authentication_services.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -77,7 +77,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   backgroundColor: GlobalVariables.primaryGrey,
                 ),
               );
-              print(responseData["user_type"]);
               if (responseData['user_type'] == 2) {
                 Navigator.push(
                   context,
@@ -92,7 +91,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         builder: (context) => const BookingDetails()),
                   );
                 } else {
-                  Navigator.of(context).pushReplacement(homepage.route());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeSplashScreen()),
+                  );
+                  
                 }
               }
             });

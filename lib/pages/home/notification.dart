@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:vehicle_parking/common/widgets/custom_buttom_app_bar.dart';
+import 'package:vehicle_parking/constants/global_variables.dart';
 import 'package:vehicle_parking/pages/home/account_details.dart';
 import 'package:vehicle_parking/pages/home/bookings_data.dart';
 import 'package:vehicle_parking/pages/home/home_page.dart';
@@ -37,111 +38,98 @@ class _NotifyDetailsState extends State<NotifyDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(children: [
-      SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Padding(
-            padding: const EdgeInsets.all(
-                14),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Row(
-                    children: [
-                      // InkWell(
-                      //   child: const Icon(Icons.arrow_back_ios_new_outlined,
-                      //       color: Colors.black),
-                      //   onTap: () {
-                      //     setState(() {
-                      //       Navigator.pop(context);
-                      //     });
-                      //   },
-                      // ),
-                      // const SizedBox(
-                      //   width: 20,
-                      // ),
-                      Text(
-                        'Notifications',
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                RefreshIndicator(
-                  onRefresh: () async {
-                    _NotifyData();
-                  },
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.67,
-                    child: notify.isNotEmpty
-                        ? ListView.separated(
-                            itemCount: notify.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                    color: Colors.black,
-                                    width: 3,
+      appBar: AppBar(
+        backgroundColor: GlobalVariables.blueColor,
+        title: const Text(
+          "NOTIFICATION",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        centerTitle: true,
+      ),
+      body: Stack(children: [
+        SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  RefreshIndicator(
+                    onRefresh: () async {
+                      _NotifyData();
+                    },
+                    child: SizedBox(
+                      height: 660,
+                      child: notify.isNotEmpty
+                          ? ListView.separated(
+                              itemCount: notify.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 3,
+                                    ),
                                   ),
-                                ),
-                                child: ListTile(
-                                  title: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        notify[index]['created'],
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  subtitle: Padding(
-                                    padding: const EdgeInsets.only(top: 10.0),
-                                    child: Column(
+                                  child: ListTile(
+                                    title: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Text(
-                                          notify[index]['content'],
+                                          notify[index]['created'],
                                           style: const TextStyle(
                                             color: Colors.black,
-                                            fontSize: 24,
+                                            fontSize: 15,
                                           ),
                                         ),
                                       ],
                                     ),
+                                    subtitle: Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            notify[index]['content'],
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 24,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) =>
-                                    const Divider(),
-                          )
-                        : const Center(child: Text('No items')),
+                                );
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) =>
+                                      const Divider(),
+                            )
+                          : const Center(child: Text('No items')),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    ]),
-    bottomNavigationBar: ClipRRect(
+      ]),
+      bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(40),
           topRight: Radius.circular(40),

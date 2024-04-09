@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:vehicle_parking/common/widgets/custom_app_bar.dart';
 import 'package:vehicle_parking/common/widgets/custom_buttom_app_bar.dart';
 import 'package:vehicle_parking/common/widgets/custom_content_box.dart';
+import 'package:vehicle_parking/common/widgets/parking_slots.dart';
 import 'package:vehicle_parking/constants/global_variables.dart';
 import 'package:vehicle_parking/pages/home/account_details.dart';
 import 'package:vehicle_parking/pages/home/booking_history.dart';
@@ -89,105 +90,102 @@ class _homepageState extends State<homepage>
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: <Widget>[
-          Material(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              physics: const ClampingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: screenHeight * 0.95,
-                        width: 510,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 50.0, right: 10.0, left: 15, bottom: 5),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Row(
-                                children: [
-                                  Text(
-                                    'Vehicle Park',
-                                    style: TextStyle(
-                                      fontSize: 35,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Text(
-                                'Welcome,',
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Text(
-                                'Available Slot',
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(
-                                  top: 10.0,
-                                  left: 30.0,
-                                ),
-                              ),
-                              RefreshIndicator(
-                                onRefresh: () async {
-                                  _vehicleData();
-                                },
-                                child: SizedBox(
-                                  height: screenHeight * 0.5,
-                                  width: screenWidth * 1,
-                                  child: data.isNotEmpty
-                                      ? GridView.count(
-                                          crossAxisCount: 2,
-                                          childAspectRatio: 2.0,
-                                          crossAxisSpacing: 10,
-                                          mainAxisSpacing: 20,
-                                          children: List.generate(data.length,
-                                              (index) {
-                                            return CustomBoxButton(
-                                              buttonTitle: data[index]
-                                                  ['slot_name'],
-                                              id: data[index]['id'].toString(),
-                                            );
-                                          }),
-                                        )
-                                      : const Center(
-                                          child: Text('No Slot Available'),
-                                        ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              expandedHeight: 300.0,
+              floating: false,
+              pinned: true,
+              stretch: true,
+              automaticallyImplyLeading: false,
+              backgroundColor: GlobalVariables.blueColor,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                collapseMode: CollapseMode.parallax,
+                title: const Text("Vehicle Park",
+                    style: TextStyle(
+                      color: Colors.white,                 
+                      fontWeight: FontWeight.w600,
+                    )),
+                background: Image.asset(
+                  "assets/images/car.png",
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
-          ),
-        ],
+          ];
+        },
+        body: Stack(
+          children: <Widget>[
+            Material(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                physics: const ClampingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: screenHeight,
+                          width: 510,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 5.0, right: 10.0, left: 15, bottom: 5),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Available Slots,',
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                SizedBox(
+                                    child: RefreshIndicator(
+                                  onRefresh: () async {
+                                    _vehicleData();
+                                  },
+                                  child: SizedBox(
+                                    height: screenHeight * 0.9,
+                                    width: screenWidth * 1,
+                                    child: data.isNotEmpty
+                                        ? GridView.count(
+                                            crossAxisCount: 2,
+                                            childAspectRatio: 2.0,
+                                            crossAxisSpacing: 10,
+                                            mainAxisSpacing: 20,
+                                            children: List.generate(data.length,
+                                                (index) {
+                                              return ParkingSlot(
+                                                  isBooked: data[index]
+                                                      ['status'],
+                                                  slotName: data[index]
+                                                      ['slot_name'],
+                                                  slotId: data[index]['id']
+                                                      .toString());
+                                            }),
+                                          )
+                                        : const Center(
+                                            child: Text('No Slot Available'),
+                                          ),
+                                  ),
+                                ))
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(
