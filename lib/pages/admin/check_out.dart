@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:vehicle_parking/common/widgets/custom_button.dart';
+import 'package:vehicle_parking/constants/global_variables.dart';
 import 'package:vehicle_parking/pages/admin/admin_account.dart';
 import 'package:vehicle_parking/pages/admin/admin_booking_history.dart';
 import 'package:vehicle_parking/pages/admin/admin_home.dart';
@@ -53,6 +54,20 @@ class _CheckOutBookingState extends State<CheckOutBooking> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: GlobalVariables.blueColor,
+        title: const Text(
+          "CHECK OUT",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        centerTitle: true,
+      ),
       body: Stack(children: [
         SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -62,46 +77,9 @@ class _CheckOutBookingState extends State<CheckOutBooking> {
             child: Padding(
               padding: const EdgeInsets.all(14),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 50.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            InkWell(
-                              child: const Icon(
-                                Icons.arrow_back_ios_new_outlined,
-                                color: Colors.black,
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const adminhomepage()),
-                                  );
-                                });
-                              },
-                            ),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.height * 0.05),
-                            const Text(
-                              'Check Out Request',
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
                   RefreshIndicator(
                     onRefresh: () async {
                       _bookingData();
@@ -148,7 +126,7 @@ class _CheckOutBookingState extends State<CheckOutBooking> {
                                           width: 10,
                                         ),
                                         Text(
-                                          'Vehicel Number: ${data[index]['vehicle']['vehicle_number']}',
+                                          'Vehicle Number: ${data[index]['vehicle']['vehicle_number']}',
                                           style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 15,

@@ -15,13 +15,10 @@ class AddSlot extends StatefulWidget {
 }
 
 class _AddSlotState extends State<AddSlot> {
-
   final name = TextEditingController();
 
-  _addslot(){
-    AdminHomeService.addslot(
-            name.text)
-        .then((response) async {
+  _addslot() {
+    AdminHomeService.addslot(name.text).then((response) async {
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -46,7 +43,6 @@ class _AddSlotState extends State<AddSlot> {
     });
   }
 
-
   final SnackBar _snackBar = const SnackBar(
     content: Text('Slot Added!'),
     duration: Duration(seconds: 3),
@@ -59,6 +55,20 @@ class _AddSlotState extends State<AddSlot> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: GlobalVariables.blueColor,
+        title: const Text(
+          "ADD SLOT",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        centerTitle: true,
+      ),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -69,43 +79,8 @@ class _AddSlotState extends State<AddSlot> {
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Column(
-                      children: [
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 350.0),
-                              child: InkWell(
-                                child: const Icon(
-                                  Icons.arrow_back_ios_new_outlined,
-                                  color: Colors.black,
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    Navigator.pop(context);
-                                  });
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        const Text(
-                          "Add Slot",
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 35,
-                    ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(

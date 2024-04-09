@@ -3,15 +3,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:vehicle_parking/common/widgets/custom_content_box.dart';
+import 'package:vehicle_parking/common/widgets/parking_slots.dart';
+import 'package:vehicle_parking/constants/global_variables.dart';
 import 'package:vehicle_parking/pages/admin/admin_account.dart';
 import 'package:vehicle_parking/pages/admin/admin_booking_history.dart';
 import 'package:vehicle_parking/pages/admin/admin_home.dart';
 import 'package:vehicle_parking/pages/admin/admin_notification.dart';
 import 'package:vehicle_parking/pages/admin/check_out.dart';
-import 'package:vehicle_parking/pages/home/account_details.dart';
-import 'package:vehicle_parking/pages/home/bookings_data.dart';
-import 'package:vehicle_parking/pages/home/notification.dart';
 import 'package:vehicle_parking/pages/home/services/home_services.dart';
 
 const Color backgroundColor = Color(0xFF4A4A58);
@@ -75,6 +73,20 @@ class _slotpageState extends State<slotpage>
 
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: GlobalVariables.blueColor,
+        title: const Text(
+          "Slot Details",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        centerTitle: true,
+      ),
       body: Stack(
         children: <Widget>[
           Material(
@@ -87,37 +99,29 @@ class _slotpageState extends State<slotpage>
                   Column(
                     children: [
                       SizedBox(
-                        height: screenHeight * 0.95,
+                        height: screenHeight,
                         width: 510,
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 50.0, right: 10.0, left: 15, bottom: 5),
+                              top: 5.0, right: 10.0, left: 15, bottom: 5),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
-                                'Available Slot',
+                                'Available Slots,',
                                 style: TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(
-                                  top: 10.0,
-                                  left: 30.0,
-                                ),
-                              ),
-                              RefreshIndicator(
+                              SizedBox(
+                                  child: RefreshIndicator(
                                 onRefresh: () async {
                                   _vehicleData();
                                 },
                                 child: SizedBox(
-                                  height: screenHeight * 0.5,
+                                  height: screenHeight * 0.9,
                                   width: screenWidth * 1,
                                   child: data.isNotEmpty
                                       ? GridView.count(
@@ -127,18 +131,19 @@ class _slotpageState extends State<slotpage>
                                           mainAxisSpacing: 20,
                                           children: List.generate(data.length,
                                               (index) {
-                                            return CustomBoxButton(
-                                              buttonTitle: data[index]
-                                                  ['slot_name'],
-                                              id: data[index]['id'].toString(),
-                                            );
+                                            return ParkingSlot(
+                                                isBooked: data[index]['status'],
+                                                slotName: data[index]
+                                                    ['slot_name'],
+                                                slotId: data[index]['id']
+                                                    .toString());
                                           }),
                                         )
                                       : const Center(
                                           child: Text('No Slot Available'),
                                         ),
                                 ),
-                              )
+                              ))
                             ],
                           ),
                         ),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:vehicle_parking/common/widgets/custom_buttom_app_bar.dart';
+import 'package:vehicle_parking/constants/global_variables.dart';
 import 'package:vehicle_parking/pages/admin/admin_account.dart';
 import 'package:vehicle_parking/pages/admin/admin_booking_history.dart';
 import 'package:vehicle_parking/pages/admin/admin_home.dart';
@@ -45,6 +46,20 @@ class _AdminParkingStatusState extends State<AdminParkingStatus> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: GlobalVariables.blueColor,
+        title: const Text(
+          "PARKING STATUS",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        centerTitle: true,
+      ),
       body: Stack(children: [
         SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -54,26 +69,9 @@ class _AdminParkingStatusState extends State<AdminParkingStatus> {
             child: Padding(
               padding: const EdgeInsets.all(14),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Text(
-                          'Parking Status',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   RefreshIndicator(
                     onRefresh: () async {
                       _bookingData();
@@ -117,15 +115,15 @@ class _AdminParkingStatusState extends State<AdminParkingStatus> {
                                           ),
                                         ),
                                         Text(
-                                        'Slot Name: ${data[index]['parking_spot']['slot_name']}',
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 15,
+                                          'Slot Name: ${data[index]['parking_spot']['slot_name']}',
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
                                         const SizedBox(
                                           width: 10,
                                         ),

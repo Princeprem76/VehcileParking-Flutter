@@ -53,6 +53,20 @@ class _AdminAccountDetailsState extends State<AdminAccountDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: GlobalVariables.blueColor,
+        title: const Text(
+          "PROFILE",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        centerTitle: true,
+      ),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -63,29 +77,12 @@ class _AdminAccountDetailsState extends State<AdminAccountDetails> {
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // Column(
-                        //   children: [
-                        //     Padding(
-                        //       padding: const EdgeInsets.only(right: 350.0),
-                        //       child: InkWell(
-                        //         child: const Icon(
-                        //           Icons.arrow_back_ios_new_outlined,
-                        //           color: Colors.black,
-                        //         ),
-                        //         onTap: () {
-                        //           setState(() {
-                        //             Navigator.pop(context);
-                        //           });
-                        //         },
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
+                        
                         const SizedBox(
                           height: 10,
                         ),

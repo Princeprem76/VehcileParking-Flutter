@@ -1,13 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:vehicle_parking/common/widgets/custom_buttom_app_bar.dart';
+import 'package:vehicle_parking/constants/global_variables.dart';
 import 'package:vehicle_parking/pages/admin/admin_account.dart';
 import 'package:vehicle_parking/pages/admin/admin_booking_history.dart';
 import 'package:vehicle_parking/pages/admin/admin_home.dart';
 import 'package:vehicle_parking/pages/admin/check_out.dart';
-import 'package:vehicle_parking/pages/home/account_details.dart';
-import 'package:vehicle_parking/pages/home/bookings_data.dart';
-import 'package:vehicle_parking/pages/home/home_page.dart';
 import 'package:vehicle_parking/pages/home/services/home_services.dart';
 
 class AdminNotifyDetail extends StatefulWidget {
@@ -41,6 +38,20 @@ class _AdminNotifyDetailState extends State<AdminNotifyDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: GlobalVariables.blueColor,
+        title: const Text(
+          "Notification",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        centerTitle: true,
+      ),
         body: Stack(children: [
       SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -51,41 +62,16 @@ class _AdminNotifyDetailState extends State<AdminNotifyDetail> {
             padding: const EdgeInsets.all(
                 14),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Row(
-                    children: [
-                      // InkWell(
-                      //   child: const Icon(Icons.arrow_back_ios_new_outlined,
-                      //       color: Colors.black),
-                      //   onTap: () {
-                      //     setState(() {
-                      //       Navigator.pop(context);
-                      //     });
-                      //   },
-                      // ),
-                      // const SizedBox(
-                      //   width: 20,
-                      // ),
-                      Text(
-                        'Notifications',
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                
                 RefreshIndicator(
                   onRefresh: () async {
                     _NotifyData();
                   },
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.67,
+                    height: 660,
                     child: notify.isNotEmpty
                         ? ListView.separated(
                             itemCount: notify.length,

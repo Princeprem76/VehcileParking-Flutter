@@ -67,256 +67,273 @@ class _adminhomepageState extends State<adminhomepage>
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: <Widget>[
-          Material(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              physics: const ClampingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: screenHeight * 0.95,
-                        width: 510,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 50.0, right: 10.0, left: 15, bottom: 5),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Row(
-                                children: [
-                                  Text(
-                                    'Vehicle Park',
-                                    style: TextStyle(
-                                      fontSize: 35,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Text(
-                                'Welcome Admin,',
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 40,
-                              ),
-                              SizedBox(
-                                  // height: screenHeight * 0.5,
-                                  // width: screenWidth * 1,
-                                  child: Column(children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 150,
-                                      width: 150,
-                                      foregroundDecoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                        border: Border.all(
-                                            color: const Color.fromARGB(
-                                                255, 169, 14, 14),
-                                            width: 3.0),
-                                      ),
-                                      child: TextButton(
-                                        onPressed: () => {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const slotpage()),
-                                          ),
-                                        },
-                                        child: const Padding(
-                                          padding: EdgeInsets.only(top: 10.0),
-                                          child: Column(
-                                            children: [
-                                              Icon(
-                                                Icons.local_parking_outlined,
-                                                size: 45,
-                                              ),
-                                              SizedBox(
-                                                height: 30,
-                                              ),
-                                              Text(
-                                                'Check Slot',
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 40,
-                                    ),
-                                    Container(
-                                      height: 150,
-                                      width: 150,
-                                      foregroundDecoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                        border: Border.all(
-                                            color: const Color.fromARGB(
-                                                255, 169, 14, 14),
-                                            width: 3.0),
-                                      ),
-                                      child: TextButton(
-                                        onPressed: () => {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AddSlot()),
-                                          ),
-                                        },
-                                        child: const Padding(
-                                          padding: EdgeInsets.only(top: 10.0),
-                                          child: Column(
-                                            children: [
-                                              Icon(
-                                                Icons.add_box_rounded,
-                                                size: 45,
-                                              ),
-                                              SizedBox(
-                                                height: 35,
-                                              ),
-                                              Text(
-                                                'Add Slot',
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 25,
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 150,
-                                      width: 150,
-                                      foregroundDecoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                        border: Border.all(
-                                            color: const Color.fromARGB(
-                                                255, 169, 14, 14),
-                                            width: 3.0),
-                                      ),
-                                      child: TextButton(
-                                        onPressed: () => {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const AdminParkingStatus()),
-                                          ),
-                                        },
-                                        child: const Padding(
-                                          padding: EdgeInsets.only(top: 10.0),
-                                          child: Column(
-                                            children: [
-                                              Icon(
-                                                Icons.confirmation_number,
-                                                size: 45,
-                                              ),
-                                              SizedBox(
-                                                height: 20,
-                                              ),
-                                              Text(
-                                                'Parking Status',
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 40,
-                                    ),
-                                    Container(
-                                      height: 150,
-                                      width: 150,
-                                      foregroundDecoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                        border: Border.all(
-                                            color: const Color.fromARGB(
-                                                255, 169, 14, 14),
-                                            width: 3.0),
-                                      ),
-                                      child: TextButton(
-                                        onPressed: () => {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AddPrice()),
-                                          ),
-                                        },
-                                        child: const Padding(
-                                          padding: EdgeInsets.only(top: 10.0),
-                                          child: Column(
-                                            children: [
-                                              Icon(
-                                                Icons.monetization_on,
-                                                size: 45,
-                                              ),
-                                              SizedBox(
-                                                height: 35,
-                                              ),
-                                              Text(
-                                                'Add Price',
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ])),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              expandedHeight: 300.0,
+              floating: false,
+              pinned: true,
+              stretch: true,
+              automaticallyImplyLeading: false,
+              backgroundColor: GlobalVariables.blueColor,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                collapseMode: CollapseMode.parallax,
+                title: const Text("Vehicle Park",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    )),
+                background: Image.asset(
+                  "assets/images/car.png",
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
-          ),
-        ],
+          ];
+        },
+        body: Stack(
+          children: <Widget>[
+            Material(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                physics: const ClampingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: screenHeight * 0.95,
+                          width: 510,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0, right: 10.0, left: 15, bottom: 5),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Welcome Admin,',
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 40,
+                                ),
+                                SizedBox(
+                                    // height: screenHeight * 0.5,
+                                    // width: screenWidth * 1,
+                                    child: Column(children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 150,
+                                        width: 150,
+                                        foregroundDecoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                          border: Border.all(
+                                              color: const Color.fromARGB(
+                                                  255, 169, 14, 14),
+                                              width: 3.0),
+                                        ),
+                                        child: TextButton(
+                                          onPressed: () => {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const slotpage()),
+                                            ),
+                                          },
+                                          child: const Padding(
+                                            padding: EdgeInsets.only(top: 10.0),
+                                            child: Column(
+                                              children: [
+                                                Icon(
+                                                  Icons.local_parking_outlined,
+                                                  size: 45,
+                                                ),
+                                                SizedBox(
+                                                  height: 30,
+                                                ),
+                                                Text(
+                                                  'Check Slot',
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 40,
+                                      ),
+                                      Container(
+                                        height: 150,
+                                        width: 150,
+                                        foregroundDecoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                          border: Border.all(
+                                              color: const Color.fromARGB(
+                                                  255, 169, 14, 14),
+                                              width: 3.0),
+                                        ),
+                                        child: TextButton(
+                                          onPressed: () => {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddSlot()),
+                                            ),
+                                          },
+                                          child: const Padding(
+                                            padding: EdgeInsets.only(top: 10.0),
+                                            child: Column(
+                                              children: [
+                                                Icon(
+                                                  Icons.add_box_rounded,
+                                                  size: 45,
+                                                ),
+                                                SizedBox(
+                                                  height: 35,
+                                                ),
+                                                Text(
+                                                  'Add Slot',
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 25,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 150,
+                                        width: 150,
+                                        foregroundDecoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                          border: Border.all(
+                                              color: const Color.fromARGB(
+                                                  255, 169, 14, 14),
+                                              width: 3.0),
+                                        ),
+                                        child: TextButton(
+                                          onPressed: () => {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const AdminParkingStatus()),
+                                            ),
+                                          },
+                                          child: const Padding(
+                                            padding: EdgeInsets.only(top: 10.0),
+                                            child: Column(
+                                              children: [
+                                                Icon(
+                                                  Icons.confirmation_number,
+                                                  size: 45,
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Text(
+                                                  'Parking Status',
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 40,
+                                      ),
+                                      Container(
+                                        height: 150,
+                                        width: 150,
+                                        foregroundDecoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                          border: Border.all(
+                                              color: const Color.fromARGB(
+                                                  255, 169, 14, 14),
+                                              width: 3.0),
+                                        ),
+                                        child: TextButton(
+                                          onPressed: () => {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddPrice()),
+                                            ),
+                                          },
+                                          child: const Padding(
+                                            padding: EdgeInsets.only(top: 10.0),
+                                            child: Column(
+                                              children: [
+                                                Icon(
+                                                  Icons.monetization_on,
+                                                  size: 45,
+                                                ),
+                                                SizedBox(
+                                                  height: 35,
+                                                ),
+                                                Text(
+                                                  'Add Price',
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ])),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(

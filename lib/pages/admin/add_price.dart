@@ -19,9 +19,7 @@ class _AddPriceState extends State<AddPrice> {
   final four = TextEditingController();
 
   _updateprice() {
-    AdminHomeService.addprice(
-            two.text, four.text)
-        .then((response) async {
+    AdminHomeService.addprice(two.text, four.text).then((response) async {
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -49,6 +47,20 @@ class _AddPriceState extends State<AddPrice> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: GlobalVariables.blueColor,
+        title: const Text(
+          "ADD PRICE",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        centerTitle: true,
+      ),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -59,45 +71,8 @@ class _AddPriceState extends State<AddPrice> {
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Column(
-                      children: [
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 350.0),
-                              child: InkWell(
-                                child: const Icon(
-                                  Icons.arrow_back_ios_new_outlined,
-                                  color: Colors.black,
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    Navigator.pop(context);
-                                  });
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Add Price",
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
                     const SizedBox(
                       height: 35,
                     ),
