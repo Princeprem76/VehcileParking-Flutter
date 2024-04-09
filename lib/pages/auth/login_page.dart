@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vehicle_parking/pages/admin/admin_home.dart';
 import 'package:vehicle_parking/pages/auth/email_page.dart';
 import 'package:vehicle_parking/pages/auth/register_page.dart';
+import 'package:vehicle_parking/pages/auth/verify.dart';
 import 'package:vehicle_parking/pages/home/booking_history.dart';
 import 'package:vehicle_parking/pages/splash_screen/homesplash.dart';
 import '../../../common/widgets/custom_button.dart';
@@ -53,6 +54,13 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  _resendcode() {
+    AuthenticationService.customerResendCode(_emailController.text)
+        .then((response) async {
+      if (response.statusCode == 200) {}
+    });
+  }
+
   _login() {
     AuthenticationService.login(
       _emailController.text,
@@ -62,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
         try {
           final Map<String, dynamic> responseData =
               json.decode(response.body.toString());
-
+          print(responseData);
           setState(() {
             _isLogging = false;
             storeData(
@@ -96,7 +104,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     MaterialPageRoute(
                         builder: (context) => const HomeSplashScreen()),
                   );
-                  
                 }
               }
             });
@@ -113,6 +120,26 @@ class _LoginScreenState extends State<LoginScreen> {
             _isLogging = false;
           });
         }
+      } else if (response.statusCode == 401) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            content: Text('Please verify user first'),
+            backgroundColor: GlobalVariables.primaryRed,
+          ),
+        );
+        setState(() {
+          _isLogging = false;
+        });
+        _resendcode();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Verify(
+              email: _emailController.text,
+            ),
+          ),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

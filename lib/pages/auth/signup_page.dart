@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:vehicle_parking/constants/global_variables.dart';
+import 'package:vehicle_parking/pages/auth/login_page.dart';
 import 'package:vehicle_parking/pages/auth/services/authentication_services.dart';
 
 class Signupp extends StatefulWidget {
@@ -46,9 +47,13 @@ class _SignuppState extends State<Signupp> {
       if (response.statusCode == 200) {
         presentphone = false;
         // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+
         // ignore: use_build_context_synchronously
-        Navigator.pushNamed(context, 'login');
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(_snackBar);
       }
     });
   }
@@ -124,24 +129,21 @@ class _SignuppState extends State<Signupp> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    SizedBox(
-                      width: 168,
-                      child: TextField(
-                        obscureText: false,
-                        controller: fname,
-                        onChanged: (val) {
-                          emptyfname = false;
-                        },
-                        style: const TextStyle(color: Colors.blue),
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blueAccent),
-                          ),
-                          labelText: 'Name',
-                          hintText: 'Name',
-                          errorText:
-                              emptyfname ? 'Please provide your Name!' : null,
+                    TextField(
+                      obscureText: false,
+                      controller: fname,
+                      onChanged: (val) {
+                        emptyfname = false;
+                      },
+                      style: const TextStyle(color: Colors.blue),
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blueAccent),
                         ),
+                        labelText: 'Name',
+                        hintText: 'Name',
+                        errorText:
+                            emptyfname ? 'Please provide your Name!' : null,
                       ),
                     ),
                     const SizedBox(

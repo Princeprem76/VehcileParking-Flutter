@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../api/api.dart';
 
 class AuthenticationService {
@@ -35,8 +37,11 @@ class AuthenticationService {
     String address,
     String phone,
   ) async {
-    dynamic response = await Api().post(
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token')!;
+    dynamic response = await Api().postWithHeader(
       'userdetails/',
+      token: token,
       body: {
         'name': name,
         'address': address,
@@ -45,12 +50,13 @@ class AuthenticationService {
     );
     return response;
   }
+
   static Future customerVerify(
     String email,
     String otp,
   ) async {
     dynamic response = await Api().post(
-      'userdetails/',
+      'activate/',
       body: {
         'email': email,
         'otp': otp,
@@ -58,6 +64,7 @@ class AuthenticationService {
     );
     return response;
   }
+
   static Future customerResendCode(
     String email,
   ) async {

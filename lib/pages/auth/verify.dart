@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vehicle_parking/pages/auth/services/authentication_services.dart';
 import 'package:vehicle_parking/pages/auth/signup_page.dart';
 
@@ -25,6 +26,12 @@ class _VerifyState extends State<Verify> {
     super.initState();
   }
 
+  storeData(String token, String refresh) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('token', token);
+    prefs.setString('refresh', refresh);
+  }
+
   sendcode() {
     AuthenticationService.customerVerify(
       widget.email,
@@ -32,17 +39,27 @@ class _VerifyState extends State<Verify> {
     ).then((response) async {
       if (response.statusCode == 200) {
         // ignore: use_build_context_synchronously
-        matchcode = false;
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Signupp(
-              email: widget.email,
-            ),
-          ),
-        );
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+        final Map<String, dynamic> responseData =
+            json.decode(response.body.toString());
+
+        setState(() {
+          storeData(
+            responseData['access'],
+            responseData['refresh'],
+          ).then((value) {
+            matchcode = false;
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Signupp(
+                  email: widget.email,
+                ),
+              ),
+            );
+            // ignore: use_build_context_synchronously
+            ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+          });
+        });
       } else {
         setState(() {
           matchcode = true;
@@ -165,21 +182,11 @@ class _VerifyState extends State<Verify> {
                   if (codec.text.isNotEmpty) {
                     setState(() {
                       emptycode = false;
-                      if (int.parse(codec.text) == codde) {
-                        setState(() {
-                          emptycode = false;
-                          matchcode = false;
-                          sendcode();
-                        });
-                      } else {
-                        setState(() {
-                          matchcode = true;
-                        });
-                      }
+                      sendcode();
                     });
                   } else {
                     setState(() {
-                      emptycode = true;
+                      matchcode = true;
                     });
                   }
                 },
