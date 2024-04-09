@@ -76,4 +76,47 @@ class AuthenticationService {
     );
     return response;
   }
+
+  static Future customerpasswordVerifyCode(
+    String email,
+  ) async {
+    dynamic response = await Api().post(
+      'emailpw/',
+      body: {
+        'email': email,
+      },
+    );
+    return response;
+  }
+
+  static Future customerPasswordVerify(
+    String email,
+    String otp,
+  ) async {
+    dynamic response = await Api().post(
+      'activatepw/',
+      body: {
+        'email': email,
+        'otp': otp,
+      },
+    );
+    return response;
+  }
+
+  static Future forgetPasswordVerify(
+    String old,
+    String newpw,
+  ) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token')!;
+    dynamic response = await Api().postWithHeader(
+      'forgetpassword/',
+      token: token,
+      body: {
+        'password': old,
+        'repassword': newpw,
+      },
+    );
+    return response;
+  }
 }

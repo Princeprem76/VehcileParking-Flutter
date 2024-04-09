@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:vehicle_parking/pages/auth/forgetpassword.dart';
+import 'package:vehicle_parking/pages/auth/password_verify.dart';
+import 'package:vehicle_parking/pages/auth/services/authentication_services.dart';
 
 class ForgetEmail extends StatefulWidget {
   const ForgetEmail({Key? key}) : super(key: key);
@@ -13,6 +13,23 @@ class ForgetEmail extends StatefulWidget {
 class _ForgetEmailState extends State<ForgetEmail> {
   bool emptyuser = false;
   final useremail = TextEditingController();
+
+  _resendcode() {
+    AuthenticationService.customerpasswordVerifyCode(useremail.text)
+        .then((response) async {
+      if (response.statusCode == 200) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PasswordVerify(
+              email: useremail.text,
+            ),
+          ),
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,8 +87,7 @@ class _ForgetEmailState extends State<ForgetEmail> {
                           style: const TextStyle(color: Colors.blue),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.blueAccent),
+                              borderSide: BorderSide(color: Colors.blueAccent),
                             ),
                             labelText: 'Email',
                             hintText: 'Enter Email',
@@ -94,12 +110,7 @@ class _ForgetEmailState extends State<ForgetEmail> {
                               setState(() {
                                 emptyuser = false;
                               });
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Forgetpassword(email:useremail.text),
-                                ),
-                              );
+                              _resendcode();
                             } else {
                               setState(() {
                                 emptyuser = true;
@@ -107,7 +118,8 @@ class _ForgetEmailState extends State<ForgetEmail> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromRGBO(3, 218, 197, 1),
+                            backgroundColor:
+                                const Color.fromRGBO(3, 218, 197, 1),
                             fixedSize: const Size(300, 70),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),

@@ -2,11 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
+import 'package:vehicle_parking/pages/auth/login_page.dart';
 import 'dart:convert';
 
+import 'package:vehicle_parking/pages/auth/services/authentication_services.dart';
+
 class Forgetpassword extends StatefulWidget {
-  final String email;
-  const Forgetpassword({Key? key, required this.email}) : super(key: key);
+  const Forgetpassword({Key? key}) : super(key: key);
 
   @override
   _ForgetpasswordState createState() => _ForgetpasswordState();
@@ -25,16 +27,16 @@ class _ForgetpasswordState extends State<Forgetpassword> {
     content: Text('Password Updated!'),
     duration: Duration(seconds: 3),
   );
-  reset(String email, String password) async {
-    
-    // if (response.statusCode == 200) {
-    //   var result = json.decode(response.body);
-    //   if (result == "Password Updated") {
-    //     isWro = false;
-    //     ScaffoldMessenger.of(context).showSnackBar(_snackBar);
-    //     Navigator.pushNamed(context, 'login');
-    //   }
-    // }
+  _changepw() {
+    AuthenticationService.forgetPasswordVerify(password.text, repassword.text)
+        .then((response) async {
+      if (response.statusCode == 200) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      }
+    });
   }
 
   @override
@@ -54,7 +56,7 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Can-Dect Password Change",
+                      "Vehcile Park Password Change",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 50,
@@ -147,7 +149,7 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(
-                          top: 10.0,
+                          top: 5.0,
                         ),
                         child: ElevatedButton(
                           onPressed: () {
@@ -163,14 +165,15 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                               final String txtpass = password.text;
                               final String txtpassword = repassword.text;
                               if (txtpassword == txtpass) {
-                                reset(widget.email, txtpassword);
+                                _changepw();
                               } else {
                                 isWro = true;
                               }
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromRGBO(3, 218, 197, 1),
+                            backgroundColor:
+                                const Color.fromRGBO(3, 218, 197, 1),
                             fixedSize: const Size(160, 70),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
@@ -190,7 +193,7 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                               Text(
                                 "Change",
                                 style: TextStyle(
-                                  fontSize: 25,
+                                  fontSize: 20,
                                   color: Colors.black,
                                   fontWeight: FontWeight.normal,
                                 ),
