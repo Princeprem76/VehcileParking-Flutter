@@ -88,11 +88,12 @@ class _adminhomepageState extends State<adminhomepage>
   @override
   void initState() {
     username = '';
-    dataMapFuture = _loadData();
+    
     daily = '0';
     monthly = '0';
     _revenue();
     super.initState();
+    dataMapFuture = _loadData();
   }
 
   @override
@@ -129,372 +130,357 @@ class _adminhomepageState extends State<adminhomepage>
             ),
           ];
         },
-        body: Stack(
-          children: <Widget>[
-            Material(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                physics: const ClampingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: screenHeight * 0.95,
-                          width: 510,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10.0, right: 10.0, left: 15, bottom: 5),
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          physics: const ClampingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Column(
+                children: [
+                  SizedBox(
+                    height: screenHeight,
+                    width: 510,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 10.0, right: 10.0, left: 15, bottom: 5),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Availibilty Chart,',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          Expanded(
+                            child: FutureBuilder<Map<String, double>>(
+                              future: dataMapFuture,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                        ConnectionState.waiting ||
+                                    snapshot.hasData) {
+                                  return PieChart(
+                                    dataMap: snapshot.data ?? {},
+                                    animationDuration:
+                                        const Duration(milliseconds: 800),
+                                    chartLegendSpacing: 32,
+                                    chartRadius:
+                                        MediaQuery.of(context).size.width / 3.2,
+                                    colorList: colorList,
+                                    initialAngleInDegree: 0,
+                                    chartType: ChartType.ring,
+                                    ringStrokeWidth: 32,
+                                    centerText: "Occupancy",
+                                    legendOptions: const LegendOptions(
+                                      showLegendsInRow: false,
+                                      legendPosition: LegendPosition.right,
+                                      showLegends: true,
+                                      legendShape: BoxShape.circle,
+                                      legendTextStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    chartValuesOptions:
+                                        const ChartValuesOptions(
+                                      showChartValueBackground: true,
+                                      showChartValues: true,
+                                      showChartValuesInPercentage: false,
+                                      showChartValuesOutside: false,
+                                      decimalPlaces: 1,
+                                    ),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                } else {
+                                  return const CircularProgressIndicator();
+                                }
+                              },
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Revenue Details,',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  'Availibilty Chart,',
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 25,
-                                ),
-                                FutureBuilder<Map<String, double>>(
-                                  future: dataMapFuture,
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                            ConnectionState.waiting ||
-                                        snapshot.hasData) {
-                                      return PieChart(
-                                        dataMap: snapshot.data ?? {},
-                                        animationDuration:
-                                            const Duration(milliseconds: 800),
-                                        chartLegendSpacing: 32,
-                                        chartRadius:
-                                            MediaQuery.of(context).size.width /
-                                                3.2,
-                                        colorList: colorList,
-                                        initialAngleInDegree: 0,
-                                        chartType: ChartType.ring,
-                                        ringStrokeWidth: 32,
-                                        centerText: "Occupancy",
-                                        legendOptions: const LegendOptions(
-                                          showLegendsInRow: false,
-                                          legendPosition: LegendPosition.right,
-                                          showLegends: true,
-                                          legendShape: BoxShape.circle,
-                                          legendTextStyle: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        chartValuesOptions:
-                                            const ChartValuesOptions(
-                                          showChartValueBackground: true,
-                                          showChartValues: true,
-                                          showChartValuesInPercentage: false,
-                                          showChartValuesOutside: false,
-                                          decimalPlaces: 1,
-                                        ),
-                                      );
-                                    } else if (snapshot.hasError) {
-                                      return Text('Error: ${snapshot.error}');
-                                    } else {
-                                      return const CircularProgressIndicator();
-                                    }
-                                  },
-                                ),
-                                const SizedBox(height: 20),
-                                const Text(
-                                  'Revenue Details,',
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  decoration: BoxDecoration(
-                                    color: Colors.blue,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text(
-                                            'Monthly Revenue:',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Rs $monthly', // Replace with actual monthly revenue
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ],
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Monthly Revenue:',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Text(
+                                      'Rs $monthly', // Replace with actual monthly revenue
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  decoration: BoxDecoration(
-                                    color: Colors.blue,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text(
-                                            'Daily Revenue:',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Rs $daily', // Replace with actual daily revenue
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 25,
-                                ),
-                                const Text(
-                                  'More Features,',
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                                SizedBox(
-                                    // height: screenHeight * 0.5,
-                                    // width: screenWidth * 1,
-                                    child: Column(children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                        height: 150,
-                                        width: 150,
-                                        foregroundDecoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          border: Border.all(
-                                              color: const Color.fromARGB(
-                                                  255, 169, 14, 14),
-                                              width: 3.0),
-                                        ),
-                                        child: TextButton(
-                                          onPressed: () => {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const slotpage()),
-                                            ),
-                                          },
-                                          child: const Padding(
-                                            padding: EdgeInsets.only(top: 10.0),
-                                            child: Column(
-                                              children: [
-                                                Icon(
-                                                  Icons.local_parking_outlined,
-                                                  size: 45,
-                                                ),
-                                                SizedBox(
-                                                  height: 30,
-                                                ),
-                                                Text(
-                                                  'Check Slot',
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 40,
-                                      ),
-                                      Container(
-                                        height: 150,
-                                        width: 150,
-                                        foregroundDecoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          border: Border.all(
-                                              color: const Color.fromARGB(
-                                                  255, 169, 14, 14),
-                                              width: 3.0),
-                                        ),
-                                        child: TextButton(
-                                          onPressed: () => {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      AddSlot()),
-                                            ),
-                                          },
-                                          child: const Padding(
-                                            padding: EdgeInsets.only(top: 10.0),
-                                            child: Column(
-                                              children: [
-                                                Icon(
-                                                  Icons.add_box_rounded,
-                                                  size: 45,
-                                                ),
-                                                SizedBox(
-                                                  height: 35,
-                                                ),
-                                                Text(
-                                                  'Add Slot',
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 25,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        height: 150,
-                                        width: 150,
-                                        foregroundDecoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          border: Border.all(
-                                              color: const Color.fromARGB(
-                                                  255, 169, 14, 14),
-                                              width: 3.0),
-                                        ),
-                                        child: TextButton(
-                                          onPressed: () => {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const AdminParkingStatus()),
-                                            ),
-                                          },
-                                          child: const Padding(
-                                            padding: EdgeInsets.only(top: 10.0),
-                                            child: Column(
-                                              children: [
-                                                Icon(
-                                                  Icons.confirmation_number,
-                                                  size: 45,
-                                                ),
-                                                SizedBox(
-                                                  height: 20,
-                                                ),
-                                                Text(
-                                                  'Parking Status',
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 40,
-                                      ),
-                                      Container(
-                                        height: 150,
-                                        width: 150,
-                                        foregroundDecoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          border: Border.all(
-                                              color: const Color.fromARGB(
-                                                  255, 169, 14, 14),
-                                              width: 3.0),
-                                        ),
-                                        child: TextButton(
-                                          onPressed: () => {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      AddPrice()),
-                                            ),
-                                          },
-                                          child: const Padding(
-                                            padding: EdgeInsets.only(top: 10.0),
-                                            child: Column(
-                                              children: [
-                                                Icon(
-                                                  Icons.monetization_on,
-                                                  size: 45,
-                                                ),
-                                                SizedBox(
-                                                  height: 35,
-                                                ),
-                                                Text(
-                                                  'Add Price',
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ])),
                               ],
                             ),
                           ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ],
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Daily Revenue:',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Rs $daily', // Replace with actual daily revenue
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          const Text(
+                            'More Features,',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          SizedBox(
+                              // height: screenHeight * 0.5,
+                              // width: screenWidth * 1,
+                              child: Column(children: [
+                            Row(
+                              children: [
+                                Container(
+                                  height: 150,
+                                  width: 150,
+                                  foregroundDecoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    border: Border.all(
+                                        color: const Color.fromARGB(
+                                            255, 169, 14, 14),
+                                        width: 3.0),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () => {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const slotpage()),
+                                      ),
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.only(top: 10.0),
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            Icons.local_parking_outlined,
+                                            size: 45,
+                                          ),
+                                          SizedBox(
+                                            height: 30,
+                                          ),
+                                          Text(
+                                            'Check Slot',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 40,
+                                ),
+                                Container(
+                                  height: 150,
+                                  width: 150,
+                                  foregroundDecoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    border: Border.all(
+                                        color: const Color.fromARGB(
+                                            255, 169, 14, 14),
+                                        width: 3.0),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () => {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => AddSlot()),
+                                      ),
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.only(top: 10.0),
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            Icons.add_box_rounded,
+                                            size: 45,
+                                          ),
+                                          SizedBox(
+                                            height: 35,
+                                          ),
+                                          Text(
+                                            'Add Slot',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  height: 150,
+                                  width: 150,
+                                  foregroundDecoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    border: Border.all(
+                                        color: const Color.fromARGB(
+                                            255, 169, 14, 14),
+                                        width: 3.0),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () => {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const AdminParkingStatus()),
+                                      ),
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.only(top: 10.0),
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            Icons.confirmation_number,
+                                            size: 45,
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            'Parking Status',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 40,
+                                ),
+                                Container(
+                                  height: 150,
+                                  width: 150,
+                                  foregroundDecoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    border: Border.all(
+                                        color: const Color.fromARGB(
+                                            255, 169, 14, 14),
+                                        width: 3.0),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () => {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => AddPrice()),
+                                      ),
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.only(top: 10.0),
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            Icons.monetization_on,
+                                            size: 45,
+                                          ),
+                                          SizedBox(
+                                            height: 35,
+                                          ),
+                                          Text(
+                                            'Add Price',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ])),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: ClipRRect(
