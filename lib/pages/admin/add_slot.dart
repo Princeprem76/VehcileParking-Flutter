@@ -86,6 +86,17 @@ class _AddSlotState extends State<AddSlot> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/addslot.png',
+                                width: 300,
+                                height: 190,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
                           TextFormField(
                             controller: name,
                             obscureText: false,

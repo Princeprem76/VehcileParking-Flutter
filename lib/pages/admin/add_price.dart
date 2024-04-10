@@ -81,6 +81,17 @@ class _AddPriceState extends State<AddPrice> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/parkings.png',
+                                width: 300,
+                                height: 190,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
                           TextFormField(
                             controller: two,
                             obscureText: false,

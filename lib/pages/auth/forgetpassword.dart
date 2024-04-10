@@ -59,7 +59,7 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                       "Vehcile Park Password Change",
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 50,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

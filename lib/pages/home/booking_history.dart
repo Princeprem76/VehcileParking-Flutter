@@ -5,6 +5,7 @@ import 'package:vehicle_parking/constants/global_variables.dart';
 import 'package:vehicle_parking/pages/home/bookings_data.dart';
 import 'package:vehicle_parking/pages/home/payment.dart';
 import 'package:vehicle_parking/pages/home/services/home_services.dart';
+import 'package:lottie/lottie.dart';
 
 class BookingDetails extends StatefulWidget {
   const BookingDetails({
@@ -90,85 +91,177 @@ class _BookingDetailsState extends State<BookingDetails> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/parkings.png',
+                          width: 300,
+                          height: 190,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
                     RefreshIndicator(
                       onRefresh: () async {
                         _bookingData();
                       },
                       child: SizedBox(
-                        height: 650,
+                        height: 690,
                         child: data.isNotEmpty
                             ? ListView.separated(
                                 itemCount: data.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      border: Border.all(
-                                        color: Colors.black,
-                                        width: 3,
-                                      ),
-                                    ),
-                                    child: ListTile(
-                                      title: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Parking Date time: ${data[index]['parking_time']}',
-                                            style: const TextStyle(
+                                  return ListTile(
+                                    title: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "Your Slot Name",
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              width: 100,
+                                              height: 80,
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    GlobalVariables.blueColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                 data[index]['parking_spot']['slot_name'] ,
+                                                  style: const TextStyle(
+                                                    fontSize: 30,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                        Text(
+                                          'Parking Date time: ${data[index]['parking_time']}',
+                                          style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 17,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            'Vehicel Number: ${data[index]['vehicle']['vehicle_number']}',
-                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          'Vehicle Number: ${data[index]['vehicle']['vehicle_number']}',
+                                          style: const TextStyle(
                                               color: Colors.black,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            'Parking Status: ${data[index]['parking_status']}',
-                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          'Parking Status: ${data[index]['parking_status']}',
+                                          style: const TextStyle(
                                               color: Colors.black,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            'Price: ${data[index]['price']}',
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                          Center(
-                                            child: PrimaryButton(
-                                                icon: Icons.person,
-                                                text: 'Check Out',
-                                                onPressed: () {
-                                                  _checkout(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                const Row(
+                                                  children: [
+                                                    Text(
+                                                      "Price",
+                                                      style: TextStyle(
+                                                          fontSize: 30,
+                                                          fontWeight:
+                                                              FontWeight.w700),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Icon(
+                                                      Icons.currency_rupee,
+                                                      size: 30,
+                                                      color: GlobalVariables
+                                                          .blueColor,
+                                                    ),
+                                                    Text(
                                                       data[index]['price']
                                                           .toString(),
-                                                      data[index]
-                                                              ['parking_spot']
-                                                          ['slot_name'],
-                                                      data[index]['id']
-                                                          .toString());
-                                                }),
-                                          ),
-                                        ],
-                                      ),
+                                                      style: const TextStyle(
+                                                        fontSize: 40,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        color: GlobalVariables
+                                                            .blueColor,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                _checkout(
+                                                    data[index]['price']
+                                                        .toString(),
+                                                    data[index]['parking_spot']
+                                                        ['slot_name'],
+                                                    data[index]['id']
+                                                        .toString());
+                                              },
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 60,
+                                                        vertical: 20),
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      GlobalVariables.blueColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: const Text(
+                                                  "Check Out",
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
                                     ),
                                   );
                                 },

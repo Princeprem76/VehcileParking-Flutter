@@ -7,9 +7,6 @@ import 'package:vehicle_parking/pages/admin/admin_booking_history.dart';
 import 'package:vehicle_parking/pages/admin/admin_home.dart';
 import 'package:vehicle_parking/pages/admin/admin_notification.dart';
 import 'package:vehicle_parking/pages/admin/services/admin_services.dart';
-import 'package:vehicle_parking/pages/home/bookings_data.dart';
-import 'package:vehicle_parking/pages/home/payment.dart';
-import 'package:vehicle_parking/pages/home/services/home_services.dart';
 
 class CheckOutBooking extends StatefulWidget {
   const CheckOutBooking({
@@ -33,6 +30,7 @@ class _CheckOutBookingState extends State<CheckOutBooking> {
     AdminHomeService.checkoutdata().then((response) async {
       if (response.statusCode == 200) {
         var vData = json.decode(response.body);
+        print(vData);
         setState(() {
           data = vData['data'];
         });
@@ -167,6 +165,16 @@ class _CheckOutBookingState extends State<CheckOutBooking> {
                                         ),
                                         Text(
                                           'Price: ${data[index]['price']}',
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          'Payment Method: ${data[index]['payment']}',
                                           style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 15,
