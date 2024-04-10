@@ -64,4 +64,22 @@ class AdminHomeService {
     );
     return response;
   }
+  static Future pieData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token')!;
+    dynamic response = await Api().getWithHeader(
+      'piedata/',
+      token: token,
+    );
+    return response;
+  }
+  static Future revenue() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token')!;
+    dynamic response = await Api().getWithHeader(
+      'revenue/',
+      token: token,
+    );
+    return response;
+  }
 }

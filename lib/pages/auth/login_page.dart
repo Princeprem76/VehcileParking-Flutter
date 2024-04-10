@@ -70,7 +70,6 @@ class _LoginScreenState extends State<LoginScreen> {
         try {
           final Map<String, dynamic> responseData =
               json.decode(response.body.toString());
-          print(responseData);
           setState(() {
             _isLogging = false;
             storeData(

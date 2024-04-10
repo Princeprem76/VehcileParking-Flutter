@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:vehicle_parking/common/widgets/custom_app_bar.dart';
 import 'package:vehicle_parking/common/widgets/custom_buttom_app_bar.dart';
 import 'package:vehicle_parking/common/widgets/custom_content_box.dart';
@@ -15,6 +16,7 @@ import 'package:vehicle_parking/pages/admin/admin_notification.dart';
 import 'package:vehicle_parking/pages/admin/check_out.dart';
 import 'package:vehicle_parking/pages/admin/check_slot.dart';
 import 'package:vehicle_parking/pages/admin/parking_status.dart';
+import 'package:vehicle_parking/pages/admin/services/admin_services.dart';
 import 'package:vehicle_parking/pages/home/account_details.dart';
 import 'package:vehicle_parking/pages/home/booking_history.dart';
 import 'package:vehicle_parking/pages/home/bookings_data.dart';
@@ -52,10 +54,44 @@ class _adminhomepageState extends State<adminhomepage>
   bool isCollapsed = true;
   late double screenWidth, screenHeight;
   late String username;
+  late String daily;
+  late String monthly;
+  late Future<Map<String, double>> dataMapFuture;
+  final colorList = <Color>[
+    Colors.redAccent,
+    Colors.deepOrange,
+    Colors.greenAccent,
+  ];
+  Future<Map<String, double>> _loadData() async {
+    final response = await AdminHomeService.pieData();
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      return Map<String, double>.from(
+          jsonData.map((key, value) => MapEntry(key, value.toDouble())));
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  _revenue() {
+    AdminHomeService.revenue().then((response) async {
+      if (response.statusCode == 200) {
+        setState(() {
+          var resJson = jsonDecode(response.body);
+          daily = resJson['daily'].toString();
+          monthly = resJson['monthly'].toString();
+        });
+      }
+    });
+  }
 
   @override
   void initState() {
     username = '';
+    dataMapFuture = _loadData();
+    daily = '0';
+    monthly = '0';
+    _revenue();
     super.initState();
   }
 
@@ -115,14 +151,140 @@ class _adminhomepageState extends State<adminhomepage>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text(
-                                  'Welcome Admin,',
+                                  'Availibilty Chart,',
                                   style: TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.normal,
                                   ),
                                 ),
                                 const SizedBox(
-                                  height: 40,
+                                  height: 25,
+                                ),
+                                FutureBuilder<Map<String, double>>(
+                                  future: dataMapFuture,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                            ConnectionState.waiting ||
+                                        snapshot.hasData) {
+                                      return PieChart(
+                                        dataMap: snapshot.data ?? {},
+                                        animationDuration:
+                                            const Duration(milliseconds: 800),
+                                        chartLegendSpacing: 32,
+                                        chartRadius:
+                                            MediaQuery.of(context).size.width /
+                                                3.2,
+                                        colorList: colorList,
+                                        initialAngleInDegree: 0,
+                                        chartType: ChartType.ring,
+                                        ringStrokeWidth: 32,
+                                        centerText: "Occupancy",
+                                        legendOptions: const LegendOptions(
+                                          showLegendsInRow: false,
+                                          legendPosition: LegendPosition.right,
+                                          showLegends: true,
+                                          legendShape: BoxShape.circle,
+                                          legendTextStyle: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        chartValuesOptions:
+                                            const ChartValuesOptions(
+                                          showChartValueBackground: true,
+                                          showChartValues: true,
+                                          showChartValuesInPercentage: false,
+                                          showChartValuesOutside: false,
+                                          decimalPlaces: 1,
+                                        ),
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Text('Error: ${snapshot.error}');
+                                    } else {
+                                      return const CircularProgressIndicator();
+                                    }
+                                  },
+                                ),
+                                const SizedBox(height: 20),
+                                const Text(
+                                  'Revenue Details,',
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.all(10),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Text(
+                                            'Monthly Revenue:',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Rs $monthly', // Replace with actual monthly revenue
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.all(10),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Text(
+                                            'Daily Revenue:',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Rs $daily', // Replace with actual daily revenue
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                                const Text(
+                                  'More Features,',
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 ),
                                 SizedBox(
                                     // height: screenHeight * 0.5,
