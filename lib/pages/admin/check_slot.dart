@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:vehicle_parking/common/widgets/adminparking.dart';
 import 'package:vehicle_parking/common/widgets/parking_slots.dart';
 import 'package:vehicle_parking/constants/global_variables.dart';
 import 'package:vehicle_parking/pages/admin/admin_account.dart';
@@ -131,12 +132,14 @@ class _slotpageState extends State<slotpage>
                                           mainAxisSpacing: 20,
                                           children: List.generate(data.length,
                                               (index) {
-                                            return ParkingSlot(
-                                                isBooked: data[index]['status'],
-                                                slotName: data[index]
-                                                    ['slot_name'],
-                                                slotId: data[index]['id']
-                                                    .toString());
+                                            return AdminParkingSlot(
+                                              isBooked: data[index]['status'],
+                                              slotName: data[index]
+                                                  ['slot_name'],
+                                              slotId:
+                                                  data[index]['id'].toString(),
+                                              vType: data[index]['v_type'],
+                                            );
                                           }),
                                         )
                                       : const Center(
