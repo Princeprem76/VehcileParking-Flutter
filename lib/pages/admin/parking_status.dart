@@ -1,17 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:vehicle_parking/common/widgets/custom_buttom_app_bar.dart';
+import 'package:vehicle_parking/common/widgets/custom_button.dart';
 import 'package:vehicle_parking/constants/global_variables.dart';
 import 'package:vehicle_parking/pages/admin/admin_account.dart';
 import 'package:vehicle_parking/pages/admin/admin_booking_history.dart';
 import 'package:vehicle_parking/pages/admin/admin_home.dart';
 import 'package:vehicle_parking/pages/admin/admin_notification.dart';
+import 'package:vehicle_parking/pages/admin/admin_reply.dart';
 import 'package:vehicle_parking/pages/admin/check_out.dart';
 import 'package:vehicle_parking/pages/admin/services/admin_services.dart';
-import 'package:vehicle_parking/pages/home/account_details.dart';
-import 'package:vehicle_parking/pages/home/home_page.dart';
-import 'package:vehicle_parking/pages/home/notification.dart';
-import 'package:vehicle_parking/pages/home/services/home_services.dart';
 
 class AdminParkingStatus extends StatefulWidget {
   const AdminParkingStatus({
@@ -150,6 +147,21 @@ class _AdminParkingStatusState extends State<AdminParkingStatus> {
                                             color: Colors.black,
                                             fontSize: 15,
                                           ),
+                                        ),
+                                        Center(
+                                          child: PrimaryButton(
+                                              icon: Icons.person,
+                                              text: 'Check Comments',
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          AdminReplyPage(
+                                                              id: data[index]
+                                                                  ['id'].toString())),
+                                                );
+                                              }),
                                         ),
                                       ],
                                     ),

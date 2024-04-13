@@ -136,7 +136,7 @@ class HomeService {
     );
     return response;
   }
-  
+
   static Future checkdata() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('token')!;
@@ -152,6 +152,44 @@ class HomeService {
     String token = prefs.getString('token')!;
     dynamic response = await Api().getWithHeader(
       'price/',
+      token: token,
+    );
+    return response;
+  }
+
+  static Future addreply(String id, String comment) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token')!;
+    dynamic response = await Api().postWithHeader(
+      'add-reply/',
+      token: token,
+      body: {
+        'id': id,
+        'comment': comment,
+      },
+    );
+    return response;
+  }
+
+  static Future addcomment(String id, String comment) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token')!;
+    dynamic response = await Api().postWithHeader(
+      'add-comment/',
+      token: token,
+      body: {
+        'id': id,
+        'comment': comment,
+      },
+    );
+    return response;
+  }
+
+  static Future getcomments() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token')!;
+    dynamic response = await Api().getWithHeader(
+      'getcomment/',
       token: token,
     );
     return response;

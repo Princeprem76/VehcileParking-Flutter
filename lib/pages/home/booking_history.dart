@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:vehicle_parking/common/widgets/custom_button.dart';
 import 'package:vehicle_parking/constants/global_variables.dart';
 import 'package:vehicle_parking/pages/home/bookings_data.dart';
 import 'package:vehicle_parking/pages/home/payment.dart';
 import 'package:vehicle_parking/pages/home/services/home_services.dart';
-import 'package:lottie/lottie.dart';
 
 class BookingDetails extends StatefulWidget {
   const BookingDetails({
@@ -19,9 +17,13 @@ class BookingDetails extends StatefulWidget {
 class _BookingDetailsState extends State<BookingDetails> {
   List data = [];
   List data1 = [];
+  late List comments = [];
+  final _commentControl = TextEditingController();
 
+  @override
   void initState() {
     _bookingData();
+    _getcomment();
     super.initState();
   }
 
@@ -52,34 +54,65 @@ class _BookingDetailsState extends State<BookingDetails> {
     });
   }
 
+  _addcomment(String id, String comment) {
+    HomeService.addcomment(id, comment).then((response) async {
+      if (response.statusCode == 200) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const BookingDetails()),
+        );
+      }
+    });
+  }
+
+  _getcomment() {
+    HomeService.getcomments().then((response) async {
+      if (response.statusCode == 200) {
+        var cmtData = json.decode(response.body);
+        var commentsList = cmtData['comments'];
+        if (commentsList != null) {
+          setState(() {
+            comments = commentsList;
+          });
+        }
+        else{
+          setState(() {
+            comments = commentsList;
+          });
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: GlobalVariables.blueColor,
-          leading: BackButton(
-            color: Colors.white,
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const BookingDataDetails()),
-              );
-            },
-          ),
-          title: const Text(
-            "BOOKING STATUS",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          iconTheme: const IconThemeData(
-            color: Colors.white,
-          ),
-          centerTitle: true,
+      appBar: AppBar(
+        backgroundColor: GlobalVariables.blueColor,
+        leading: BackButton(
+          color: Colors.white,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const BookingDataDetails()),
+            );
+          },
         ),
-        body: Stack(children: [
+        title: const Text(
+          "BOOKING STATUS",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        centerTitle: true,
+      ),
+      body: Stack(
+        children: [
           SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: SizedBox(
@@ -107,7 +140,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                         _bookingData();
                       },
                       child: SizedBox(
-                        height: 690,
+                        height: 500,
                         child: data.isNotEmpty
                             ? ListView.separated(
                                 itemCount: data.length,
@@ -144,7 +177,8 @@ class _BookingDetailsState extends State<BookingDetails> {
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                 data[index]['parking_spot']['slot_name'] ,
+                                                  data[index]['parking_spot']
+                                                      ['slot_name'],
                                                   style: const TextStyle(
                                                     fontSize: 30,
                                                     fontWeight: FontWeight.w700,
@@ -260,7 +294,123 @@ class _BookingDetailsState extends State<BookingDetails> {
                                               ),
                                             )
                                           ],
-                                        )
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        // Display comment box if there are no comments
+                                        
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: TextField(
+                                                  controller: _commentControl,
+                                                  decoration: InputDecoration(
+                                                    hintText:
+                                                        'Add a comment...',
+                                                    suffixIcon: IconButton(
+                                                      // ignore: prefer_const_constructors
+                                                      icon: Icon(Icons.send),
+                                                      onPressed: () => {
+                                                        _addcomment(
+                                                            data[index]['id']
+                                                                .toString(),
+                                                            _commentControl
+                                                                .text)
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        const SizedBox(height: 10),
+
+                                        // Displaying comments and replies
+                                        ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: comments.length,
+                                          itemBuilder: (context, commentIndex) {
+                                            return Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  comments[commentIndex]["name"],
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Text(comments[commentIndex]
+                                                    ["comment"]),
+                                                const SizedBox(height: 10),
+                                                // Display replies if available
+                                                ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount:
+                                                      comments[commentIndex]
+                                                          ["replies"]
+                                                          .length,
+                                                  itemBuilder:
+                                                      (context, replyIndex) {
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 16.0),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          
+                                                          Text(
+                                                            comments[
+                                                                    commentIndex]
+                                                                ["replies"][
+                                                                    replyIndex]
+                                                                ["name"],
+                                                            style: const TextStyle(
+                                                              color: Colors.red,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          Text(comments[
+                                                                  commentIndex]
+                                                              ["replies"][
+                                                                  replyIndex]
+                                                              ["reply"]),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                                // Add reply text field
+                                                // Row(
+                                                //   children: [
+                                                //     Expanded(
+                                                //       child: TextField(
+                                                //         decoration:
+                                                //             InputDecoration(
+                                                //           hintText:
+                                                //               'Add a reply...',
+                                                //           suffixIcon:
+                                                //               IconButton(
+                                                //             icon: const Icon(
+                                                //                 Icons.send),
+                                                //             onPressed: () =>
+                                                //                 {},
+                                                //           ),
+                                                //         ),
+                                                //       ),
+                                                //     ),
+                                                //   ],
+                                                // ),
+                                                const SizedBox(height: 10),
+                                              ],
+                                            );
+                                          },
+                                        ),
                                       ],
                                     ),
                                   );
@@ -277,6 +427,8 @@ class _BookingDetailsState extends State<BookingDetails> {
               ),
             ),
           ),
-        ]));
+        ],
+      ),
+    );
   }
 }

@@ -297,8 +297,7 @@ class _adminhomepageState extends State<adminhomepage>
                                   foregroundDecoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.0),
                                     border: Border.all(
-                                        color: const Color.fromARGB(
-                                            255, 169, 14, 14),
+                                        color: const Color.fromARGB(255, 75, 215, 206),
                                         width: 3.0),
                                   ),
                                   child: TextButton(
@@ -317,6 +316,7 @@ class _adminhomepageState extends State<adminhomepage>
                                           Icon(
                                             Icons.local_parking_outlined,
                                             size: 45,
+                                            color: Colors.blue
                                           ),
                                           SizedBox(
                                             height: 30,
@@ -326,6 +326,7 @@ class _adminhomepageState extends State<adminhomepage>
                                             style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.normal,
+                                              color: Colors.blue
                                             ),
                                           ),
                                         ],
@@ -342,8 +343,7 @@ class _adminhomepageState extends State<adminhomepage>
                                   foregroundDecoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.0),
                                     border: Border.all(
-                                        color: const Color.fromARGB(
-                                            255, 169, 14, 14),
+                                        color: const Color.fromARGB(255, 75, 215, 206),
                                         width: 3.0),
                                   ),
                                   child: TextButton(
@@ -361,6 +361,7 @@ class _adminhomepageState extends State<adminhomepage>
                                           Icon(
                                             Icons.add_box_rounded,
                                             size: 45,
+                                            color: Colors.blue
                                           ),
                                           SizedBox(
                                             height: 35,
@@ -370,6 +371,7 @@ class _adminhomepageState extends State<adminhomepage>
                                             style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.normal,
+                                              color: Colors.blue
                                             ),
                                           ),
                                         ],
@@ -390,8 +392,7 @@ class _adminhomepageState extends State<adminhomepage>
                                   foregroundDecoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.0),
                                     border: Border.all(
-                                        color: const Color.fromARGB(
-                                            255, 169, 14, 14),
+                                        color: const Color.fromARGB(255, 75, 215, 206),
                                         width: 3.0),
                                   ),
                                   child: TextButton(
@@ -410,6 +411,7 @@ class _adminhomepageState extends State<adminhomepage>
                                           Icon(
                                             Icons.confirmation_number,
                                             size: 45,
+                                            color: Colors.blue
                                           ),
                                           SizedBox(
                                             height: 20,
@@ -419,6 +421,7 @@ class _adminhomepageState extends State<adminhomepage>
                                             style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.normal,
+                                              color: Colors.blue
                                             ),
                                           ),
                                         ],
@@ -435,8 +438,7 @@ class _adminhomepageState extends State<adminhomepage>
                                   foregroundDecoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.0),
                                     border: Border.all(
-                                        color: const Color.fromARGB(
-                                            255, 169, 14, 14),
+                                        color: const Color.fromARGB(255, 75, 215, 206),
                                         width: 3.0),
                                   ),
                                   child: TextButton(
@@ -454,6 +456,7 @@ class _adminhomepageState extends State<adminhomepage>
                                           Icon(
                                             Icons.monetization_on,
                                             size: 45,
+                                            color: Colors.blue
                                           ),
                                           SizedBox(
                                             height: 35,
@@ -463,6 +466,7 @@ class _adminhomepageState extends State<adminhomepage>
                                             style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.normal,
+                                              color: Colors.blue
                                             ),
                                           ),
                                         ],

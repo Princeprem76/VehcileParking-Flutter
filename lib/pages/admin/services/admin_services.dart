@@ -82,4 +82,13 @@ class AdminHomeService {
     );
     return response;
   }
+  static Future getcomments(String id) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token')!;
+    dynamic response = await Api().getWithHeader(
+      'getcomment/?id=$id',
+      token: token,
+    );
+    return response;
+  }
 }
