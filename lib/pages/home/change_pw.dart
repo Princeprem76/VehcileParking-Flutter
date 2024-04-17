@@ -29,19 +29,18 @@ class _ChangePasswordState extends State<ChangePassword> {
     HomeService.changepw(oldpassword, newpw).then((response) async {
       if (response.statusCode == 200) {
         var result = json.decode(response.body).toString();
-        if (result == "Password Updated") {
-          Navigator.pop(context);
-          setState(() {
-            iscorrect = false;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(_snackBar);
-        } else {
-          setState(() {
-            iscorrect = true;
-            ScaffoldMessenger.of(context).showSnackBar(_snackBar1);
-          });
-        }
-      } else {}
+
+        Navigator.pop(context);
+        setState(() {
+          iscorrect = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+      } else {
+        setState(() {
+          iscorrect = true;
+          ScaffoldMessenger.of(context).showSnackBar(_snackBar1);
+        });
+      }
     });
   }
 
