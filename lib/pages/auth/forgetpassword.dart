@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
+import 'package:vehicle_parking/constants/global_variables.dart';
 import 'package:vehicle_parking/pages/auth/login_page.dart';
 import 'dart:convert';
 
@@ -34,6 +35,13 @@ class _ForgetpasswordState extends State<Forgetpassword> {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            content: Text('Password Updated'),
+            backgroundColor: GlobalVariables.primaryRed,
+          ),
         );
       }
     });
@@ -167,7 +175,10 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                               if (txtpassword == txtpass) {
                                 _changepw();
                               } else {
-                                isWro = true;
+                                setState(() {
+                                  isWro = true;
+                                });
+                                
                               }
                             }
                           },

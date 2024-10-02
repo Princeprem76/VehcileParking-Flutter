@@ -45,19 +45,22 @@ class _SignupState extends State<Signup> {
             ),
           ),
         );
-        // } else if (result == "Email exists") {
-        //   empresent = true;
-        // } else {
-        //   invaemail = true;
-        // }
+      } else if (response.statusCode == 400) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            content: Text('Wrong Email'),
+            backgroundColor: GlobalVariables.primaryRed,
+          ),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              behavior: SnackBarBehavior.floating,
-              content: Text('Email already exists'),
-              backgroundColor: GlobalVariables.primaryRed,
-            ),
-          );
+          const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            content: Text('Email already exists'),
+            backgroundColor: GlobalVariables.primaryRed,
+          ),
+        );
       }
     });
   }
@@ -234,7 +237,7 @@ class _SignupState extends State<Signup> {
                                   setState(
                                     () {
                                       pass = true;
-                                      
+
                                       _createuser();
                                     },
                                   );

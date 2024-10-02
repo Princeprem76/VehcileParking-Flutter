@@ -385,27 +385,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                                                     );
                                                   },
                                                 ),
-                                                // Add reply text field
-                                                // Row(
-                                                //   children: [
-                                                //     Expanded(
-                                                //       child: TextField(
-                                                //         decoration:
-                                                //             InputDecoration(
-                                                //           hintText:
-                                                //               'Add a reply...',
-                                                //           suffixIcon:
-                                                //               IconButton(
-                                                //             icon: const Icon(
-                                                //                 Icons.send),
-                                                //             onPressed: () =>
-                                                //                 {},
-                                                //           ),
-                                                //         ),
-                                                //       ),
-                                                //     ),
-                                                //   ],
-                                                // ),
+                                                
                                                 const SizedBox(height: 10),
                                               ],
                                             );
